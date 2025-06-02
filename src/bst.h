@@ -9,18 +9,6 @@
 
 namespace BST{
 
-struct Node {
-    std::string word;
-    std::vector<int> documentIds;
-    Node* parent;
-    Node* left;
-    Node* right;
-};
-
-struct BinaryTree {
-    Node* root;
-};
-
 BinaryTree* create();
 
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
