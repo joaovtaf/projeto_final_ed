@@ -36,8 +36,6 @@ struct SearchResult {
     // <Possíveis outras variáveis>
 };
 
-void printTreeHelper(BinaryTree* tree, const std::string& prefix, bool isLeft);
-
 void printIndex(BinaryTree* tree);
 
 void printTree(BinaryTree* tree);
