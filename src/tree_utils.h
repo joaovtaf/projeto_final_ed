@@ -38,6 +38,8 @@ struct SearchResult {
 
 void printIndex(BinaryTree* tree);
 
+void printTreeAux(BinaryTree* tree, const std::string& prefix, bool isLeft);
+
 void printTree(BinaryTree* tree);
 
 #endif
