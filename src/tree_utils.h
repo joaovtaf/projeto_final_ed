@@ -3,7 +3,6 @@
 #include <fstream>
 #include <chrono>
 #include <vector>
-#include "bst.h"
 
 #ifndef TREE_UTILS_H
 #define TREE_UTILS_H
