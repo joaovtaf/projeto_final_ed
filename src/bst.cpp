@@ -6,9 +6,10 @@
 #include "bst.h"
 #include "tree_utils.h"
 
+
 BinaryTree* create(){
     BinaryTree* ptr = new BinaryTree(nullptr); 
-    return ptr
+    return ptr;
 }
 
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){

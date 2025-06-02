@@ -20,7 +20,7 @@ struct Node {
 struct BinaryTree {
     Node* root;
     Node* NIL;  // usado na RBT (Opcional)
-}
+};
 
 struct InsertResult {
     int numComparisons;
