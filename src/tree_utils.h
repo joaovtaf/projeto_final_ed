@@ -3,7 +3,6 @@
 #include <fstream>
 #include <chrono>
 #include <vector>
-#include "bst.h"
 
 #ifndef TREE_UTILS_H
 #define TREE_UTILS_H
@@ -21,7 +20,7 @@ struct Node {
 struct BinaryTree {
     Node* root;
     Node* NIL;  // usado na RBT (Opcional)
-}
+};
 
 struct InsertResult {
     int numComparisons;
@@ -36,6 +35,8 @@ struct SearchResult {
     int numComparisons;
     // <Possíveis outras variáveis>
 };
+
+void printTreeHelper(BinaryTree* tree, const std::string& prefix, bool isLeft);
 
 void printIndex(BinaryTree* tree);
 
