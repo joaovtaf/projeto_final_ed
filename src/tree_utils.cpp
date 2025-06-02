@@ -1,1 +1,10 @@
-// Structs e Funções auxiliares, como Criar Nó, Computar altura, Busca, Exibir Árvore, etc
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include <vector>
+#include "tree_utils.h"
+
+void printIndex(BinaryTree* tree);
+
+void printTree(BinaryTree* tree);
