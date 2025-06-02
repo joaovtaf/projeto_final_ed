@@ -8,18 +8,19 @@
 
 
 BinaryTree* create() {
-    BinaryTree* ptr = new BinaryTree();
-    ptr->root = nullptr;
-    ptr->NIL = nullptr; // não é utilizado
+    BinaryTree* ptr = new BinaryTree{nullptr, nullptr};
     return ptr;
 }
 
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
+    auto start = std::chrono::high_resolution_clock::now();
     int numComparisons = 0;
-
+    
     if(tree->root == nullptr) {
         tree->root = new Node{word, {documentId}, nullptr, nullptr, nullptr, 0, 0};
-        return InsertResult{numComparisons,0}; // IMPORTANTE: colocar o valor de executionTime
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = end - start;
+        return InsertResult{numComparisons, elapsed.count()};
     } // se a árvore ainda estiver vazia é criado o root
 
     Node* current_node = tree->root;
@@ -32,7 +33,9 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
 
         if ( comparison == 0 ) {
             current_node->documentIds.push_back(documentId);
-            return InsertResult{numComparisons, 0}; // IMPORTANTE: colocar o valor de executionTime
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> elapsed = end - start;
+            return InsertResult{numComparisons, elapsed.count()};
         }
         if ( comparison < 0 ) {
             current_node_parent = current_node;
@@ -49,7 +52,9 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
     current_node = new Node{word, {documentId}, current_node_parent, nullptr, nullptr, 0, 0};
     if (L_or_R == -1) current_node_parent->left = current_node;
     if (L_or_R == +1) current_node_parent->right = current_node; 
-    return InsertResult{numComparisons,0}; // IMPORTANTE: colocar o valor de executionTime
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    return InsertResult{numComparisons, elapsed.count()};
 }
 
 SearchResult search(BinaryTree* tree, const std::string& word){
