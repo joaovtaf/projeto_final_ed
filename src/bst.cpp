@@ -7,8 +7,8 @@
 #include "tree_utils.h"
 
 
-BinaryTree* create(){
-    BinaryTree* ptr = new BinaryTree(nullptr); 
+BinaryTree* create() {
+    BinaryTree* ptr = new BinaryTree();
     return ptr;
 }
 
