@@ -29,12 +29,14 @@ std::string processWord(const std::string& word);
  * @param directory Caminho do diretório contendo os arquivos
  * @param numFiles Numero de arquivos a processar
  * @param insertCallback Funçao de callback para inserção de palavras
+ * @param tree Arvore a ser construida apos o processamento
  * @return ProcessResult Resultados do processamento
  */
 ProcessResult processFiles(
     const std::string& directory, 
     int numFiles,
-    const std::function<void(const std::string&, int)>& insertCallback
+    const std::function<InsertResult(void* ,const std::string&, int)>& insertCallback,
+    void* tree
 );
 
 #endif 

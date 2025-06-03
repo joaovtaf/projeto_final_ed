@@ -19,7 +19,8 @@ std::string processWord(const std::string& word) {
 ProcessResult processFiles(
     const std::string& directory, 
     int numFiles,
-    const std::function<void(const std::string&, int)>& insertCallback
+    const std::function<InsertResult(void* ,const std::string&, int)>& insertCallback,
+    void* tree
 ) {
     auto start = std::chrono::high_resolution_clock::now();
     int totalWords = 0;
@@ -41,7 +42,7 @@ ProcessResult processFiles(
             while (iss >> word) {
                 std::string processed = processWord(word);
                 if (!processed.empty()) {
-                    insertCallback(processed, docId); // inserçao na estrutura
+                    insertCallback(tree, processed, docId); // inserçao na estrutura
                     totalWords++;
                     
                 }
