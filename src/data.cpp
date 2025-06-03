@@ -2,9 +2,9 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
-#include <unordered_set>
+#include <sstream>
 
-// processamento das palavras
+// Processamento das palavras
 std::string processWord(const std::string& word) {
     std::string processed;
     for (char c : word) {
@@ -15,7 +15,7 @@ std::string processWord(const std::string& word) {
     return processed;
 }
 
-// processamento dos arquivos
+// Processamento dos arquivos
 ProcessResult processFiles(
     const std::string& directory, 
     int numFiles,
@@ -23,8 +23,6 @@ ProcessResult processFiles(
 ) {
     auto start = std::chrono::high_resolution_clock::now();
     int totalWords = 0;
-    int uniqueWords = 0;
-    std::unordered_set<std::string> uniqueSet;
 
     for (int docId = 0; docId < numFiles; docId++) { // buscando os arquivos
         std::string filePath = directory + "/" + std::to_string(docId) + ".txt";
@@ -43,14 +41,9 @@ ProcessResult processFiles(
             while (iss >> word) {
                 std::string processed = processWord(word);
                 if (!processed.empty()) {
-                    insertCallback(processed, docId);
+                    insertCallback(processed, docId); // inserçao na estrutura
                     totalWords++;
                     
-                    // contagem de palavras únicas
-                    if (uniqueSet.find(processed) == uniqueSet.end()) {
-                        uniqueSet.insert(processed);
-                        uniqueWords++;
-                    }
                 }
             }
         }
@@ -60,5 +53,5 @@ ProcessResult processFiles(
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    return ProcessResult{totalWords, uniqueWords, elapsed.count()};
+    return ProcessResult{totalWords, elapsed.count()};
 }

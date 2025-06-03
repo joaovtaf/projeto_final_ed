@@ -5,22 +5,32 @@
 #include <string>
 #include <cctype> // para std::tolower
 #include <functional> // para std::function
-#include <fstream>
-#include <iostream>
-#include <chrono>
-#include <unordered_set>
 
-// estrutura para armazenar estatistica de processamento
+/**
+ * @struct ProcessResult
+ * @brief Armazena resultados do processamento de arquivos
+ * @var totalWords - Total de palavras processadas (incluindo repeticoes)
+ * @var executionTime - Tempo total de processamento em segundos
+ */
 struct ProcessResult {
     int totalWords;
-    int uniqueWords;
     double executionTime;
 };
 
-// função para processar as palavras
+/**
+ * @brief Processa uma palavra removendo caracteres nao alfanumericos e convertendo para minúsculas
+ * @param word Palavra a ser processada
+ * @return std::string Palavra processada
+ */
 std::string processWord(const std::string& word);
 
-// função para processar os arquivos
+/**
+ * @brief Processa múltiplos arquivos de texto em um diretorio
+ * @param directory Caminho do diretório contendo os arquivos
+ * @param numFiles Numero de arquivos a processar
+ * @param insertCallback Funçao de callback para inserção de palavras
+ * @return ProcessResult Resultados do processamento
+ */
 ProcessResult processFiles(
     const std::string& directory, 
     int numFiles,
