@@ -76,12 +76,12 @@ void test_insert() {
     success &= (contains(tree->root->left->documentIds, 2) && tree->root->left->documentIds.size() == 1);
     print_test_result("Inserir Palavra Duplicada (ID igual)", success);
 
-    // Inserir elemento muito grande (teste para palavras com mais caracteres)
-    InsertResult res7 = BST::insert(tree, "supercalifragilisticexpialidocious", 6);
-    success &= (tree->root->right->right != nullptr && tree->root->right->right->word == "supercalifragilisticexpialidocious" && contains(tree->root->right->right->documentIds, 6));
+    // Inserir elemento muito grande
+    InsertResult res7 = BST::insert(tree, "pneumoultramicroscopicossilicovulcanoconiotico", 6);
+    success &= (tree->root->right->right != nullptr && tree->root->right->right->word == "pneumoultramicroscopicossilicovulcanoconiotico" && contains(tree->root->right->right->documentIds, 6));
     print_test_result("Inserir Elemento Grande", success);
 
-    // Inserir elemento muito pequeno (teste para palavras curtas)
+    // Inserir elemento muito pequeno
     InsertResult res8 = BST::insert(tree, "a", 7);
     success &= (tree->root->left->left != nullptr && tree->root->left->left->word == "a" && contains(tree->root->left->left->documentIds, 7));
     print_test_result("Inserir Elemento Pequeno", success);
@@ -111,7 +111,7 @@ void test_search() {
     BST::insert(tree, "dilmar", 5);
     bool success = true;
 
-    // Buscar elemento existente (raiz)
+    // Buscar elemento existente
     SearchResult res1 = BST::search(tree, "dilmar");
     success &= (res1.found == 1 && contains(res1.documentIds, 1) && contains(res1.documentIds, 5) && res1.documentIds.size() == 2);
     print_test_result("Buscar Elemento Existente (Raiz)", success);
@@ -138,13 +138,13 @@ void test_search() {
     success &= (res5.found == 0 && res5.documentIds.empty());
     print_test_result("Buscar em Arvore Vazia", success);
 
-    // Buscar em árvore nula (teste de segurança)
+    // Buscar em árvore nula
     SearchResult res6 = BST::search(nullptr, "dilmar");
     success &= (res6.found == 0 && res6.documentIds.empty());
     print_test_result("Buscar em Arvore Nula", success);
 
     // Buscar um elemento muito grande
-    SearchResult res7 = BST::search(tree, "supercalifragilisticexpialidocious");
+    SearchResult res7 = BST::search(tree, "pneumoultramicroscopicossilicovulcanoconiotico");
     success &= (res7.found == 0 && res7.documentIds.empty());
     print_test_result("Buscar Elemento Grande Inexistente", success);
 
@@ -219,10 +219,10 @@ void test_destroy() {
         print_test_result("Recriar Arvore Após Destruir", false);
     }
 
-    // Limpeza final
     BST::destroy(tree3);
 }
 
+// Main para rodar os testes
 int main() {
     std::cout << "Iniciando testes para a BST: \n" << std::endl;
 
