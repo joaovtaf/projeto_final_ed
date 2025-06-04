@@ -6,6 +6,7 @@
 #include "bst.h"
 #include "tree_utils.h"
 
+namespace BST {
 
 BinaryTree* create() {
     BinaryTree* ptr = new BinaryTree{nullptr, nullptr};
@@ -40,7 +41,17 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
         numComparisons++;
 
         if ( comparison == 0 ) {
-            current_node->documentIds.push_back(documentId); // salva o Id
+            bool found = false;
+            for (int id : current_node->documentIds) {
+                if (id == documentId) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                current_node->documentIds.push_back(documentId); // salva o Id
+            }
 
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
@@ -132,3 +143,4 @@ void destroy(BinaryTree* tree) {
     delete tree; 
     return; // deleta a tree e root, e retorna
 }
+} // namespace BST
