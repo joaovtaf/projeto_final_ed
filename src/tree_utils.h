@@ -36,10 +36,26 @@ struct SearchResult {
     // <Possíveis outras variáveis>
 };
 
+/**
+ * @brief Imprime as palavras armazenadas em tree, em ordem lexicográfica, seguidas dos
+ * índices dos arquivos aos quais elas pertencem.
+ * @param *tree Ponteiro para a árvore
+ */
 void printIndex(BinaryTree* tree);
 
+
+/**
+ * @brief Função interna para formatar a impressão das palavras armazenadas em tree em formato de árvore.
+ * @param *tree Ponteiro para a árvore
+ * @param &prefix Endereço do prefixo atual
+ * @param isLeft True se o nó raiz está na esquerda de seu nó pai. False caso contrário.
+ */
 void printTreeAux(BinaryTree* tree, const std::string& prefix, bool isLeft);
 
+/**
+ * @brief Imprime as palavras armazenadas em tree em formato de árvore.
+ * @param *tree Ponteiro para a árvore
+ */
 void printTree(BinaryTree* tree);
 
 #endif
