@@ -22,7 +22,22 @@ void test_create() {
     BinaryTree* tree = BST::create();
     bool success = (tree != nullptr && tree->root == nullptr);
     print_test_result("Criar Arvore Vazia", success);
+
+    // Testa criação de árvore novamente
+    BinaryTree* tree2 = BST::create();
+    success &= (tree2 != nullptr && tree2->root == nullptr);
+    print_test_result("Criar Arvore Vazia Novamente", success);
+
     BST::destroy(tree);
+    BST::destroy(tree2);
+
+    // Testa árvore com apenas um nó
+    BinaryTree* tree3 = BST::create();
+    BST::insert(tree3, "primeiro", 1);
+    success &= (tree3->root != nullptr && tree3->root->word == "primeiro" && tree3->root->documentIds.size() == 1);
+    print_test_result("Criar Arvore com um Nó", success);
+    
+    BST::destroy(tree3);
 }
 
 // Testa a inserção em uma árvore vazia e inserções subsequentes
@@ -60,6 +75,28 @@ void test_insert() {
     InsertResult res6 = BST::insert(tree, "dilmar", 4);
     success &= (contains(tree->root->left->documentIds, 2) && tree->root->left->documentIds.size() == 1);
     print_test_result("Inserir Palavra Duplicada (ID igual)", success);
+
+    // Inserir elemento muito grande (teste para palavras com mais caracteres)
+    InsertResult res7 = BST::insert(tree, "supercalifragilisticexpialidocious", 6);
+    success &= (tree->root->right->right != nullptr && tree->root->right->right->word == "supercalifragilisticexpialidocious" && contains(tree->root->right->right->documentIds, 6));
+    print_test_result("Inserir Elemento Grande", success);
+
+    // Inserir elemento muito pequeno (teste para palavras curtas)
+    InsertResult res8 = BST::insert(tree, "a", 7);
+    success &= (tree->root->left->left != nullptr && tree->root->left->left->word == "a" && contains(tree->root->left->left->documentIds, 7));
+    print_test_result("Inserir Elemento Pequeno", success);
+
+    // Inserir palavras com letras maiúsculas e minúsculas
+    InsertResult res9 = BST::insert(tree, "Apple", 8);
+    InsertResult res10 = BST::insert(tree, "apple", 9);
+    success &= (tree->root->right->right->left != nullptr && tree->root->right->right->left->word == "Apple" && contains(tree->root->right->right->left->documentIds, 8));
+    success &= (tree->root->right->right->right != nullptr && tree->root->right->right->right->word == "apple" && contains(tree->root->right->right->right->documentIds, 9));
+    print_test_result("Inserir Palavras com Maiúsculas e Minúsculas", success);
+
+    // Inserir palavra semelhante a outra já existente
+    InsertResult res11 = BST::insert(tree, "antonia", 10);
+    success &= (tree->root->left->right != nullptr && tree->root->left->right->word == "antonia" && contains(tree->root->left->right->documentIds, 10));
+    print_test_result("Inserir Palavra Semelhante", success);
 
     BST::destroy(tree);
 }
@@ -106,6 +143,21 @@ void test_search() {
     success &= (res6.found == 0 && res6.documentIds.empty());
     print_test_result("Buscar em Arvore Nula", success);
 
+    // Buscar um elemento muito grande
+    SearchResult res7 = BST::search(tree, "supercalifragilisticexpialidocious");
+    success &= (res7.found == 0 && res7.documentIds.empty());
+    print_test_result("Buscar Elemento Grande Inexistente", success);
+
+    // Buscar elemento com letras maiúsculas e minúsculas
+    SearchResult res8 = BST::search(tree, "Apple");
+    success &= (res8.found == 0 && res8.documentIds.empty());
+    print_test_result("Buscar Elemento Maiúsculo", success);
+
+    // Buscar palavra semelhante a outra já existente
+    SearchResult res9 = BST::search(tree, "antonia");
+    success &= (res9.found == 1 && contains(res9.documentIds, 10));
+    print_test_result("Buscar Elemento Semelhante", success);
+
     BST::destroy(tree);
 }
 
@@ -120,7 +172,6 @@ void test_destroy() {
     BST::insert(tree1, "roger", 2);
     try {
         BST::destroy(tree1);
-        // Verificar se a árvore foi destruída
         tree1 = nullptr;
         if (tree1 == nullptr) {
             print_test_result("Destruir Arvore Nao Vazia", true);
@@ -137,7 +188,6 @@ void test_destroy() {
     BinaryTree* tree2 = BST::create(); 
     try {
         BST::destroy(tree2);
-        // Verificar se a árvore vazia foi destruída
         tree2 = nullptr;
         if (tree2 == nullptr) {
             print_test_result("Destruir Arvore Vazia", true);
@@ -172,8 +222,6 @@ void test_destroy() {
     // Limpeza final
     BST::destroy(tree3);
 }
-
-
 
 int main() {
     std::cout << "Iniciando testes para a BST: \n" << std::endl;
