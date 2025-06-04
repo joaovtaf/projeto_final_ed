@@ -16,6 +16,13 @@ void print_test_result(const std::string& test_name, bool success) {
     std::cout << "Teste '" << test_name << "': " << (success ? "PASSOU" : "FALHOU") << std::endl;
 }
 
+// Função auxiliar para comparar palavras (usando operadores do C++)
+int compare_words(const std::string& word1, const std::string& word2) {
+    if (word1 < word2) return -1;  // word1 é menor que word2
+    if (word1 > word2) return 1;   // word1 é maior que word2
+    return 0;                      // palavras iguais
+}
+
 // Testa a criação de uma árvore vazia
 void test_create() {
     std::cout << "\nTestando a create" << std::endl;
@@ -61,10 +68,14 @@ void test_insert() {
     success &= (tree->root->right != nullptr && tree->root->right->word == "roger" && contains(tree->root->right->documentIds, 3));
     print_test_result("Inserir Elemento Maior", success);
 
-    // Inserir outro elemento entre os já criados
+    // Inserir outro elemento entre os já criados ("dilmar" deve ficar entre "antonio" e "roger")
     InsertResult res4 = BST::insert(tree, "dilmar", 4);
     success &= (tree->root->right->left != nullptr && tree->root->right->left->word == "dilmar" && contains(tree->root->right->left->documentIds, 4));
-    print_test_result("Inserir Elemento", success);
+    print_test_result("Inserir Elemento Entre Dois Já Existentes", success);
+
+    // Verificando a ordem correta da árvore após inserção de "dilmar"
+    success &= (tree->root->left->word == "antonio" && tree->root->right->left->word == "dilmar" && tree->root->right->word == "roger");
+    print_test_result("Verificar Ordem da Árvore após Inserção de 'dilmar'", success);
 
     // Inserir palavra duplicada com ID diferente
     InsertResult res5 = BST::insert(tree, "joao", 5); 
@@ -77,8 +88,8 @@ void test_insert() {
     print_test_result("Inserir Palavra Duplicada (ID igual)", success);
 
     // Inserir elemento muito grande
-    InsertResult res7 = BST::insert(tree, "pneumoultramicroscopicossilicovulcanoconiotico", 6);
-    success &= (tree->root->right->right != nullptr && tree->root->right->right->word == "pneumoultramicroscopicossilicovulcanoconiotico" && contains(tree->root->right->right->documentIds, 6));
+    InsertResult res7 = BST::insert(tree, "pneumoultramicroscopicossilicovulcanoconiótico", 6);
+    success &= (tree->root->right->right != nullptr && tree->root->right->right->word == "pneumoultramicroscopicossilicovulcanoconiótico" && contains(tree->root->right->right->documentIds, 6));
     print_test_result("Inserir Elemento Grande", success);
 
     // Inserir elemento muito pequeno
@@ -144,7 +155,7 @@ void test_search() {
     print_test_result("Buscar em Arvore Nula", success);
 
     // Buscar um elemento muito grande
-    SearchResult res7 = BST::search(tree, "pneumoultramicroscopicossilicovulcanoconiotico");
+    SearchResult res7 = BST::search(tree, "pneumoultramicroscopicossilicovulcanoconiótico");
     success &= (res7.found == 0 && res7.documentIds.empty());
     print_test_result("Buscar Elemento Grande Inexistente", success);
 
