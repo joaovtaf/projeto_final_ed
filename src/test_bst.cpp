@@ -63,3 +63,48 @@ void test_insert() {
 
     BST::destroy(tree);
 }
+
+// Testa a busca por elementos
+void test_search() {
+    std::cout << "\nTestando a search" << std::endl;
+    BinaryTree* tree = BST::create();
+    BST::insert(tree, "dilmar", 1);
+    BST::insert(tree, "antonio", 2);
+    BST::insert(tree, "roger", 3);
+    BST::insert(tree, "dilmar", 5);
+    bool success = true;
+
+    // Buscar elemento existente (raiz)
+    SearchResult res1 = BST::search(tree, "dilmar");
+    success &= (res1.found == 1 && contains(res1.documentIds, 1) && contains(res1.documentIds, 5) && res1.documentIds.size() == 2);
+    print_test_result("Buscar Elemento Existente (Raiz)", success);
+
+    // Buscar elemento existente em uma folha da esquerda
+    SearchResult res2 = BST::search(tree, "antonio");
+    success &= (res2.found == 1 && contains(res2.documentIds, 2) && res2.documentIds.size() == 1);
+    print_test_result("Buscar Elemento Existente (Folha Esquerda)", success);
+
+    // Buscar elemento existente em uma folha da direita
+    SearchResult res3 = BST::search(tree, "roger"); 
+    success &= (res3.found == 1 && contains(res3.documentIds, 3) && res3.documentIds.size() == 1);
+    print_test_result("Buscar Elemento Existente (Folha Direita)", success);
+
+    // Buscar elemento inexistente
+    SearchResult res4 = BST::search(tree, "joao");
+    success &= (res4.found == 0 && res4.documentIds.empty());
+    print_test_result("Buscar Elemento Inexistente", success);
+
+    // Buscar em árvore vazia
+    BST::destroy(tree);
+    tree = BST::create();
+    SearchResult res5 = BST::search(tree, "dilmar");
+    success &= (res5.found == 0 && res5.documentIds.empty());
+    print_test_result("Buscar em Arvore Vazia", success);
+
+    // Buscar em árvore nula (teste de segurança)
+    SearchResult res6 = BST::search(nullptr, "dilmar");
+    success &= (res6.found == 0 && res6.documentIds.empty());
+    print_test_result("Buscar em Arvore Nula", success);
+
+    BST::destroy(tree);
+}
