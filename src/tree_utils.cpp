@@ -6,6 +6,10 @@
 #include "tree_utils.h"
 
 void printIndex(BinaryTree* tree){
+    if(tree->root == nullptr){
+        std::cout << "Árvore vazia\n";
+        return;
+    }
     BinaryTree* auxTree = new BinaryTree;
     if(tree->root->left != nullptr){
         auxTree->root = tree->root->left;
@@ -58,5 +62,9 @@ void printTreeAux(BinaryTree* tree, const std::string& prefix, bool isLeft) {
 }
 
 void printTree(BinaryTree* tree){
+    if(tree->root == nullptr){
+        std::cout << "Árvore vazia\n";
+        return;
+    }
     printTreeAux(tree, "", false);
 }
