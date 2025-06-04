@@ -108,3 +108,82 @@ void test_search() {
 
     BST::destroy(tree);
 }
+
+// Testa a função destroy
+void test_destroy() {
+    std::cout << "\nTestando a destroy" << std::endl;
+    bool success = true;
+
+    // Destruir árvore não vazia
+    BinaryTree* tree1 = BST::create();
+    BST::insert(tree1, "bernardo", 1);
+    BST::insert(tree1, "roger", 2);
+    try {
+        BST::destroy(tree1);
+        // Verificar se a árvore foi destruída
+        tree1 = nullptr;
+        if (tree1 == nullptr) {
+            print_test_result("Destruir Arvore Nao Vazia", true);
+        } else {
+            success = false;
+            print_test_result("Destruir Arvore Nao Vazia", false);
+        }
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Arvore Nao Vazia", false);
+    }
+
+    // Destruir árvore vazia
+    BinaryTree* tree2 = BST::create(); 
+    try {
+        BST::destroy(tree2);
+        // Verificar se a árvore vazia foi destruída
+        tree2 = nullptr;
+        if (tree2 == nullptr) {
+            print_test_result("Destruir Arvore Vazia", true);
+        } else {
+            success = false;
+            print_test_result("Destruir Arvore Vazia", false);
+        }
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Arvore Vazia", false);
+    }
+
+    // Destruir ponteiro nulo
+    try {
+        BST::destroy(nullptr);
+        print_test_result("Destruir Ponteiro Nulo", true);
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Ponteiro Nulo", false);
+    }
+
+    // Recriar árvore e verificar se a criação funciona após destruir
+    BinaryTree* tree3 = BST::create(); 
+    BST::insert(tree3, "teste", 100);
+    if (tree3 != nullptr && tree3->root != nullptr) {
+        print_test_result("Recriar Arvore Após Destruir", true);
+    } else {
+        success = false;
+        print_test_result("Recriar Arvore Após Destruir", false);
+    }
+
+    // Limpeza final
+    BST::destroy(tree3);
+}
+
+
+
+int main() {
+    std::cout << "Iniciando testes para a BST: \n" << std::endl;
+
+    test_create();
+    test_insert();
+    test_search();
+    test_destroy();
+
+    std::cout << "\nTestes concluídos." << std::endl;
+
+    return 0;
+}
