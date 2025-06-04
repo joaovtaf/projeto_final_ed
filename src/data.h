@@ -5,6 +5,7 @@
 #include <string>
 #include <cctype> // para std::tolower
 #include <functional> // para std::function
+#include "tree_utils.h" // para InsertResult
 
 /**
  * @struct ProcessResult
