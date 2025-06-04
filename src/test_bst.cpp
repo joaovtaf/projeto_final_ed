@@ -63,3 +63,127 @@ void test_insert() {
 
     BST::destroy(tree);
 }
+
+// Testa a busca por elementos
+void test_search() {
+    std::cout << "\nTestando a search" << std::endl;
+    BinaryTree* tree = BST::create();
+    BST::insert(tree, "dilmar", 1);
+    BST::insert(tree, "antonio", 2);
+    BST::insert(tree, "roger", 3);
+    BST::insert(tree, "dilmar", 5);
+    bool success = true;
+
+    // Buscar elemento existente (raiz)
+    SearchResult res1 = BST::search(tree, "dilmar");
+    success &= (res1.found == 1 && contains(res1.documentIds, 1) && contains(res1.documentIds, 5) && res1.documentIds.size() == 2);
+    print_test_result("Buscar Elemento Existente (Raiz)", success);
+
+    // Buscar elemento existente em uma folha da esquerda
+    SearchResult res2 = BST::search(tree, "antonio");
+    success &= (res2.found == 1 && contains(res2.documentIds, 2) && res2.documentIds.size() == 1);
+    print_test_result("Buscar Elemento Existente (Folha Esquerda)", success);
+
+    // Buscar elemento existente em uma folha da direita
+    SearchResult res3 = BST::search(tree, "roger"); 
+    success &= (res3.found == 1 && contains(res3.documentIds, 3) && res3.documentIds.size() == 1);
+    print_test_result("Buscar Elemento Existente (Folha Direita)", success);
+
+    // Buscar elemento inexistente
+    SearchResult res4 = BST::search(tree, "joao");
+    success &= (res4.found == 0 && res4.documentIds.empty());
+    print_test_result("Buscar Elemento Inexistente", success);
+
+    // Buscar em árvore vazia
+    BST::destroy(tree);
+    tree = BST::create();
+    SearchResult res5 = BST::search(tree, "dilmar");
+    success &= (res5.found == 0 && res5.documentIds.empty());
+    print_test_result("Buscar em Arvore Vazia", success);
+
+    // Buscar em árvore nula (teste de segurança)
+    SearchResult res6 = BST::search(nullptr, "dilmar");
+    success &= (res6.found == 0 && res6.documentIds.empty());
+    print_test_result("Buscar em Arvore Nula", success);
+
+    BST::destroy(tree);
+}
+
+// Testa a função destroy
+void test_destroy() {
+    std::cout << "\nTestando a destroy" << std::endl;
+    bool success = true;
+
+    // Destruir árvore não vazia
+    BinaryTree* tree1 = BST::create();
+    BST::insert(tree1, "bernardo", 1);
+    BST::insert(tree1, "roger", 2);
+    try {
+        BST::destroy(tree1);
+        // Verificar se a árvore foi destruída
+        tree1 = nullptr;
+        if (tree1 == nullptr) {
+            print_test_result("Destruir Arvore Nao Vazia", true);
+        } else {
+            success = false;
+            print_test_result("Destruir Arvore Nao Vazia", false);
+        }
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Arvore Nao Vazia", false);
+    }
+
+    // Destruir árvore vazia
+    BinaryTree* tree2 = BST::create(); 
+    try {
+        BST::destroy(tree2);
+        // Verificar se a árvore vazia foi destruída
+        tree2 = nullptr;
+        if (tree2 == nullptr) {
+            print_test_result("Destruir Arvore Vazia", true);
+        } else {
+            success = false;
+            print_test_result("Destruir Arvore Vazia", false);
+        }
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Arvore Vazia", false);
+    }
+
+    // Destruir ponteiro nulo
+    try {
+        BST::destroy(nullptr);
+        print_test_result("Destruir Ponteiro Nulo", true);
+    } catch (...) {
+        success = false;
+        print_test_result("Destruir Ponteiro Nulo", false);
+    }
+
+    // Recriar árvore e verificar se a criação funciona após destruir
+    BinaryTree* tree3 = BST::create(); 
+    BST::insert(tree3, "teste", 100);
+    if (tree3 != nullptr && tree3->root != nullptr) {
+        print_test_result("Recriar Arvore Após Destruir", true);
+    } else {
+        success = false;
+        print_test_result("Recriar Arvore Após Destruir", false);
+    }
+
+    // Limpeza final
+    BST::destroy(tree3);
+}
+
+
+
+int main() {
+    std::cout << "Iniciando testes para a BST: \n" << std::endl;
+
+    test_create();
+    test_insert();
+    test_search();
+    test_destroy();
+
+    std::cout << "\nTestes concluídos." << std::endl;
+
+    return 0;
+}
