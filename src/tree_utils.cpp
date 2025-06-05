@@ -19,7 +19,7 @@ void printIndex(BinaryTree* tree){
 
     for(int i = 0; i < tree->root->documentIds.size(); i++){
         std::cout << tree->root->documentIds[i];
-        if(i < tree->root->documentIds.size()) std::cout << ", ";
+        if(i < tree->root->documentIds.size() - 1) std::cout << ", ";
         else std::cout << "\n";
     }
 
@@ -29,35 +29,29 @@ void printIndex(BinaryTree* tree){
     }
     auxTree->root = nullptr;
     delete auxTree;
+    auxTree = nullptr;
 }
 
-void printTreeAux(BinaryTree* tree, const std::string& prefix, bool isLeft) {
+void printTreeAux(Node* node, const std::string& prefix, bool isLast) {
+    if (node == nullptr) return;
+
     std::cout << prefix;
-    std::string newPrefix;
-    if(isLeft){
-        std::cout << "├── ";
-        newPrefix = prefix + "│   ";
-    }
-    else{
-        std::cout << "└── ";
-        newPrefix = prefix + "    ";
-    }
+    if(prefix != "") std::cout << (isLast ? "└── " : "├── ");
+    else std::cout << "    ";
+    std::cout << node->word << std::endl;
 
-    std::cout << tree->root->word << "\n";
+    bool hasLeft = node->left != nullptr;
+    bool hasRight = node->right != nullptr;
 
-    if(tree->root->left != nullptr){
-        BinaryTree* auxTreeLeft = new BinaryTree;
-        auxTreeLeft->root = tree->root->left;
-        printTreeAux(auxTreeLeft, newPrefix, true);
-        auxTreeLeft->root = nullptr;
-        delete auxTreeLeft;
-    }
-    if(tree->root->right != nullptr){
-        BinaryTree* auxTreeRight = new BinaryTree;
-        auxTreeRight->root = tree->root->right;
-        printTreeAux(auxTreeRight, newPrefix, false);
-        auxTreeRight->root = nullptr;
-        delete auxTreeRight;
+    std::string newPrefix = prefix + (isLast ? "    " : "│   ");
+
+    if (hasLeft && hasRight) {
+        printTreeAux(node->left, newPrefix, false); 
+        printTreeAux(node->right, newPrefix, true); 
+    } else if (hasLeft) {
+        printTreeAux(node->left, newPrefix, true);
+    } else if (hasRight) {
+        printTreeAux(node->right, newPrefix, true);
     }
 }
 
@@ -66,5 +60,5 @@ void printTree(BinaryTree* tree){
         std::cout << "Árvore vazia\n";
         return;
     }
-    printTreeAux(tree, "", false);
+    printTreeAux(tree->root, "", true);
 }
