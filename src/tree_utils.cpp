@@ -17,9 +17,9 @@ void printIndex(BinaryTree* tree){
     }
     std::cout << tree->root->word << ": ";
 
-    for(int i = 0; i < tree->root->documentIds.size(); i++){
+    for(int i = 0; i < int(tree->root->documentIds.size()); i++){
         std::cout << tree->root->documentIds[i];
-        if(i < tree->root->documentIds.size() - 1) std::cout << ", ";
+        if(i < int(tree->root->documentIds.size() - 1)) std::cout << ", ";
         else std::cout << "\n";
     }
 
