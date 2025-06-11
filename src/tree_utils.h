@@ -58,4 +58,18 @@ void printTreeAux(Node* node, const std::string& prefix, bool isLeft);
  */
 void printTree(BinaryTree* tree);
 
+/**
+ * @brief retorna o valor máximo entre dois int.
+ * @param a, b inteiros
+ * @return int, maior entre a e b
+ */
+int max(int a, int b);
+
+/**
+ * @brief retorna o valor máximo entre dois int.
+ * @param Node* ponteiro para o nó a ser descoberto a altura
+ * @return int, altura do nó
+ */
+int height(Node* node);
+
 #endif

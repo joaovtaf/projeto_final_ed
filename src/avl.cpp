@@ -13,16 +13,6 @@ BinaryTree* create() {
     return ptr; // cria o ponteiro para BinaryTree
 }
 
-int max(int a, int b) {
-    return (a > b) ? a : b; // retorna o máximo entre dois int
-}
-
-int height(Node* node) {
-    if (node == nullptr)
-        return 0;
-    return node->height;
-}
-
 int getBalance(Node* node) {
     if (node == nullptr)
         return 0;
