@@ -20,14 +20,9 @@ int getBalance(Node* node) {
 }
 
 Node* rightRotate(Node* y) {
-    // inicio
-    //     y
-    //   x   T3
-    // T1 T2
-    // fim
-    //     x
-    //   T1   y
-    //      T2 T3
+    if (!y || !y->left) {
+        return y;
+    }
     
     Node* x = y->left;
     Node* T2 = x->right;
@@ -35,21 +30,16 @@ Node* rightRotate(Node* y) {
     x->right = y;
     y->left = T2;
 
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = 1 + max(height(y->left), height(y->right));
+    x->height = 1 + max(height(x->left), height(x->right));
 
     return x; // faz a rotação para a direita
 }
 
 Node* leftRotate(Node* x) {
-    // inicio
-    //     x
-    //  T1     y
-    //      T2  T3
-    // fim
-    //      y
-    //   x     T3
-    // T1 T2 
+    if (!x || !x->right) {
+        return x;
+    }
 
     Node* y = x->right;
     Node* T2 = y->left;
@@ -57,8 +47,8 @@ Node* leftRotate(Node* x) {
     y->left = x;
     x->right = T2;
 
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = 1 + max(height(y->left), height(y->right));
+    x->height = 1 + max(height(x->left), height(x->right)) + 1;
 
     return y; // faz a rotação para a esquerda
 }
@@ -93,22 +83,22 @@ Node* insertAVL(Node* node, const std::string& word, int documentId, int& numCom
 
     int balance = getBalance(node);
 
-    // Caso left Left
-    if (balance > 1 && word.compare(node->left->word) < 0)
+    // Left Left Case
+    if (balance > 1 && node->left != nullptr && word.compare(node->left->word) < 0)
         return rightRotate(node);
 
-    // Caso Right Right
-    if (balance < -1 && word.compare(node->right->word) > 0)
+    // Right Right Case
+    if (balance < -1 && node->right != nullptr && word.compare(node->right->word) > 0)
         return leftRotate(node);
 
-    // Caso Left Right
-    if (balance > 1 && word.compare(node->left->word) > 0) {
+    // Left Right Case
+    if (balance > 1 && node->left != nullptr && word.compare(node->left->word) > 0) {
         node->left = leftRotate(node->left);
         return rightRotate(node);
     }
 
-    // Caso Right Left
-    if (balance < -1 && word.compare(node->right->word) < 0) {
+    // Right Left Case
+    if (balance < -1 && node->right != nullptr && word.compare(node->right->word) < 0) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
