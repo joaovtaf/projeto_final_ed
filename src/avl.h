@@ -7,7 +7,7 @@
 #ifndef AVL_H
 #define AVL_H
 
-namespace AVL{
+namespace AVL {
 
 /**
  * @brief Cria uma árvore avl
