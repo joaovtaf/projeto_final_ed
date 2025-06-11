@@ -18,6 +18,15 @@ int max(int a, int b) {
 }
 
 Node* rightRotate(Node* y) {
+    // inicio
+    //     y
+    //   x   T3
+    // T1 T2
+    // fim
+    //     x
+    //   T1   y
+    //      T2 T3
+    
     Node* x = y->left;
     Node* T2 = x->right;
 
@@ -31,6 +40,15 @@ Node* rightRotate(Node* y) {
 }
 
 Node* leftRotate(Node* x) {
+    // inicio
+    //     x
+    //  T1     y
+    //      T2  T3
+    // fim
+    //      y
+    //   x     T3
+    // T1 T2 
+
     Node* y = x->right;
     Node* T2 = y->left;
 
@@ -43,5 +61,23 @@ Node* leftRotate(Node* x) {
     return y; // faz a rotação para a esquerda
 }
 
+void destroyNode(Node* node) {
+    if (node != nullptr) {
+        destroyNode(node->left);
+        destroyNode(node->right);
+        delete node;
+    }
+    return; // recursivamente deleta todos os nós
+}
+
+void destroy(BinaryTree* tree) {
+
+    if (tree == nullptr) return; // se a arvore for null retorna direto
+
+    destroyNode(tree->root); // recursivamente deleta os nós
+    
+    delete tree; 
+    return; // deleta a tree e root, e retorna
+}
 
 }
