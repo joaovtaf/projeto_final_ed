@@ -46,11 +46,11 @@ void printIndex(BinaryTree* tree);
 
 /**
  * @brief Função interna para formatar a impressão das palavras armazenadas em tree em formato de árvore.
- * @param *tree Ponteiro para a árvore
+ * @param *node Ponteiro para o nó raiz
  * @param &prefix Endereço do prefixo atual
  * @param isLeft True se o nó raiz está na esquerda de seu nó pai. False caso contrário.
  */
-void printTreeAux(BinaryTree* tree, const std::string& prefix, bool isLeft);
+void printTreeAux(Node* node, const std::string& prefix, bool isLeft);
 
 /**
  * @brief Imprime as palavras armazenadas em tree em formato de árvore.
