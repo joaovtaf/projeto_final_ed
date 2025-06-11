@@ -22,6 +22,20 @@ BinaryTree* create();
 int max(int a, int b);
 
 /**
+ * @brief retorna o valor máximo entre dois int.
+ * @param Node* ponteiro para o nó a ser descoberto a altura
+ * @return int, altura do nó
+ */
+int height(Node* node);
+
+/**
+ * @brief retorna o valor máximo entre dois int.
+ * @param Node* ponteiro para o nó a ser feito o balanço
+ * @return int, altura do nó da esquerda menos a altura do nó da direita
+ */
+int getBalance(Node* node);
+
+/**
  * @brief realiza a rotação para a direita do nó y
  * @param y, nó a ser rotacionado
  * @return retorna o novo nó na posição de y

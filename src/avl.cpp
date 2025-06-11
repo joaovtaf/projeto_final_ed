@@ -17,6 +17,18 @@ int max(int a, int b) {
     return (a > b) ? a : b; // retorna o máximo entre dois int
 }
 
+int height(Node* node) {
+    if (node == nullptr)
+        return 0;
+    return node->height;
+}
+
+int getBalance(Node* node) {
+    if (node == nullptr)
+        return 0;
+    return height(node->left) - height(node->right);
+}
+
 Node* rightRotate(Node* y) {
     // inicio
     //     y
@@ -33,8 +45,8 @@ Node* rightRotate(Node* y) {
     x->right = y;
     y->left = T2;
 
-    y->height = max(y->left->height, y->right->height) + 1;
-    x->height = max(x->left->height, x->right->height) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
 
     return x; // faz a rotação para a direita
 }
@@ -55,8 +67,8 @@ Node* leftRotate(Node* x) {
     y->left = x;
     x->right = T2;
 
-    y->height = max(y->left->height, y->right->height) + 1;
-    x->height = max(x->left->height, x->right->height) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
 
     return y; // faz a rotação para a esquerda
 }
@@ -87,9 +99,9 @@ Node* insertAVL(Node* node, const std::string& word, int documentId, int& numCom
         return node;
     }
 
-    node->height = 1 + max(node->left->height, node->right->height);
+    node->height = 1 + max(height(node->left), height(node->right));
 
-    int balance = node->left->height - node->right->height;
+    int balance = getBalance(node);
 
     // Caso left Left
     if (balance > 1 && word.compare(node->left->word) < 0)
