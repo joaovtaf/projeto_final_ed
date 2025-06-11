@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <cassert>
-#include <algorithm>
 #include <sstream>
 #include "bst.h"
 #include "tree_utils.h"
@@ -11,7 +10,12 @@
 
 // Função para verificar se um ID existe em um vetor de IDs
 bool containsId(const std::vector<int>& ids, int id) {
-    return std::find(ids.begin(), ids.end(), id) != ids.end();
+    for (size_t i = 0; i < ids.size(); i++) {
+        if (ids[i] == id) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool checkTreeStructure(Node* node, const std::string& word, Node* expected_left, Node* expected_right) {
