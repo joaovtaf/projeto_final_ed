@@ -21,6 +21,9 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 // Retorna um SearchResult que trás se a palavra foi achada, em quais documentos está, e estatísticas sobre o desempenho (número de comparações e tempo de execução).
 SearchResult search(BinaryTree* tree, const std::string& word);
 
+// Função auxiliar da destroy.
+void destroyNode(Node* node);
+
 // Libera toda a memória alocada pela árvore binária.
 void destroy(BinaryTree* tree);
 }

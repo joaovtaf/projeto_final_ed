@@ -15,6 +15,27 @@ namespace AVL {
 BinaryTree* create();
 
 /**
+ * @brief retorna o valor máximo entre dois int.
+ * @param a, b inteiros
+ * @return int, maior entre a e b
+ */
+int max(int a, int b);
+
+/**
+ * @brief realiza a rotação para a direita do nó y
+ * @param y, nó a ser rotacionado
+ * @return retorna o novo nó na posição de y
+ */
+Node* rightRotate(Node* y);
+
+/**
+ * @brief realiza a rotação para a esquerda do nó x
+ * @param x, nó a ser rotacionado
+ * @return retorna o novo nó na posição de x
+ */
+Node* leftRotate(Node* x);
+
+/**
  * @brief Insere um nó mantendo a árvore balanceada, na forma AVL 
  * ou adiciona um novo documentId a um nó ja existente
  * @param *tree Ponteiro para a árvore
@@ -31,6 +52,12 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
  * e estatísticas sobre o desempenho (número de comparações e tempo de execução).
  */
 SearchResult search(BinaryTree* tree, const std::string& word);
+
+/**
+ * @brief função auxiliar para destroy
+ * @param *node ponteiro para o nó
+ */
+void destroyNode(Node* node);
 
 /**
  * @brief Libera toda a memória alocada pela árvore binária.
