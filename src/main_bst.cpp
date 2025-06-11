@@ -42,14 +42,17 @@ void executeSearch(BinaryTree* tree) {
                 }
             }
             std::cout << std::endl;
-            std::cout << "Tempo de busca: " << result.executionTime << " segundos" << std::endl;
-            std::cout << "Comparações realizadas: " << result.numComparisons << std::endl;
         } else {
-            std::cout << "Palavra '" << processedWord << "' não encontrada." << std::endl;
-            std::cout << "Tempo de busca: " << result.executionTime << " segundos" << std::endl;
-            std::cout << "Comparações realizadas: " << result.numComparisons << std::endl;
+            std::cout << "Palavra \'" << processedWord << "\' não encontrada." << std::endl;
         }
     }
+}
+
+void executeStats(BinaryTree* tree, ProcessResult processResult) {
+    std::cout << "\n--- MODO ESTATÍSTICAS ---" << std::endl;
+    std::cout << "Número de palavras processadas: " << processResult.totalWords << std::endl;
+    std::cout << "Tempo total de indexação: " << processResult.executionTime << " segundos" << std::endl;
+    std::cout << "Altura da árvore: " << height(tree->root) << std::endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -92,8 +95,9 @@ int main(int argc, char* argv[]) {
     //executar comando solicitado
     if (command == "search") {
         executeSearch(tree);
-    } 
-    //else if (command == "stats") <- outra parcial
+    } else if (command == "stats") {
+        executeStats(tree, processResult);
+    }
     
     //limpar memória
     BST::destroy(tree);
