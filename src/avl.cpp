@@ -61,6 +61,77 @@ Node* leftRotate(Node* x) {
     return y; // faz a rotação para a esquerda
 }
 
+Node* insertAVL(Node* node, const std::string& word, int documentId, int& numComparisons) {
+    if (node == nullptr) {
+        return (new Node{word, {documentId}, nullptr, nullptr, nullptr, 1, 0});
+    }
+
+    numComparisons++;
+    int comparison = word.compare(node->word);
+
+    if (comparison < 0)
+        node->left = insertAVL(node->left, word, documentId, numComparisons);
+    else if (comparison > 0)
+        node->right = insertAVL(node->right, word, documentId, numComparisons);
+    else {
+        bool found = false;
+        for (int id : node->documentIds) {
+            if (id == documentId) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            node->documentIds.push_back(documentId);
+        }
+        return node;
+    }
+
+    node->height = 1 + max(node->left->height, node->right->height);
+
+    int balance = node->left->height - node->right->height;
+
+    // Caso left Left
+    if (balance > 1 && word.compare(node->left->word) < 0)
+        return rightRotate(node);
+
+    // Caso Right Right
+    if (balance < -1 && word.compare(node->right->word) > 0)
+        return leftRotate(node);
+
+    // Caso Left Right
+    if (balance > 1 && word.compare(node->left->word) > 0) {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+
+    // Caso Right Left
+    if (balance < -1 && word.compare(node->right->word) < 0) {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return node;
+}
+
+InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
+    auto start = std::chrono::high_resolution_clock::now();
+    int numComparisons = 0;
+    
+    if(tree == nullptr){
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = end - start;
+        return InsertResult{numComparisons, elapsed.count()};
+    }
+
+    tree->root = insertAVL(tree->root, word, documentId, numComparisons);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+
+    return InsertResult{numComparisons, elapsed.count()};
+}
+
 SearchResult search(BinaryTree* tree, const std::string& word){
     auto start = std::chrono::high_resolution_clock::now(); // incia a contagem
     int numComparisons = 0;

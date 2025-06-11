@@ -36,6 +36,15 @@ Node* rightRotate(Node* y);
 Node* leftRotate(Node* x);
 
 /**
+ * @brief Função recursiva auxiliar da insert
+ * @param *node nó da sub árvore a ser inserida
+ * @param & word palavra a ser inserida
+ * @param documentId número do documento de origem da palavra
+ * @param & numComparisons ponteiro para retornar o número de comparações
+ */
+Node* insertAVL(Node* node, const std::string& word, int documentId, int& numComparisons);
+
+/**
  * @brief Insere um nó mantendo a árvore balanceada, na forma AVL 
  * ou adiciona um novo documentId a um nó ja existente
  * @param *tree Ponteiro para a árvore
