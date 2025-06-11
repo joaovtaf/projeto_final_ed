@@ -13,72 +13,55 @@ BinaryTree* create() {
     return ptr; // cria e retorna
 }
 
+Node* insertBST(Node* node, const std::string& word, int documentId, int& numComparisons) {
+    if (node == nullptr) {
+        return new Node{word, {documentId}, nullptr, nullptr, nullptr, 0, 0}; // Novo nó tem altura 0
+    }
+    numComparisons++;
+    int comparison = word.compare(node->word);
+
+    if (comparison < 0) {
+        node->left = insertBST(node->left, word, documentId, numComparisons); // vai pela esquerda se menor
+    } else if (comparison > 0) {
+        node->right = insertBST(node->right, word, documentId, numComparisons); // vai pela direita se maior
+    } else {
+        // Se palavra encontrada, adiciona o documentId se for novo
+        bool found = false;
+        for (int id : node->documentIds) {
+            if (id == documentId) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            node->documentIds.push_back(documentId);
+        }
+        return node; // Não muda a altura
+    }
+
+    // Muda a altura se o nó for caminhado
+    node->height = 1 + max(height(node->left), height(node->right));
+
+    // Retorna o nó caminhado
+    return node;
+}
+
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
-    auto start = std::chrono::high_resolution_clock::now(); // incia a contagem
+    auto start = std::chrono::high_resolution_clock::now();
     int numComparisons = 0;
     
     if(tree == nullptr){
         auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
-
+        std::chrono::duration<double> elapsed = end - start;
         return InsertResult{numComparisons, elapsed.count()};
-    } // se a arvore for null retorna direto
-    if(tree->root == nullptr) {
-        tree->root = new Node{word, {documentId}, nullptr, nullptr, nullptr, 0, 0};
-
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
-
-        return InsertResult{numComparisons, elapsed.count()};
-    } // se a árvore ainda estiver vazia é criado o root
-
-    Node* current_node = tree->root; // nó atual
-    Node* current_node_parent = nullptr; // guarda o pai do nó atual
-    int L_or_R = 0; // -1 de left e +1 se right 
-
-    while (current_node != nullptr) {
-        int comparison = word.compare(current_node->word);
-        numComparisons++;
-
-        if ( comparison == 0 ) {
-            bool found = false;
-            for (int id : current_node->documentIds) {
-                if (id == documentId) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                current_node->documentIds.push_back(documentId); // salva o Id
-            }
-
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
-
-            return InsertResult{numComparisons, elapsed.count()}; // se a palavra for igual, retorna com a lista atualizada
-        }
-        if ( comparison < 0 ) {
-            current_node_parent = current_node;
-            current_node = current_node->left;
-            L_or_R = -1; // se a palavra for menor, segue pela esquerda
-        }
-        if ( comparison > 0 ) {
-            current_node_parent = current_node;
-            current_node = current_node->right;
-            L_or_R = +1; // se a palavra for maior, segue pela direita
-        }
     }
-    
-    current_node = new Node{word, {documentId}, current_node_parent, nullptr, nullptr, 0, 0};
 
-    if (L_or_R == -1) current_node_parent->left = current_node;
-    if (L_or_R == +1) current_node_parent->right = current_node; // guarda o nó atual do lado corrto do nó pai
+    tree->root = insertBST(tree->root, word, documentId, numComparisons); // Usa a função auxiliar para inserir a palavra
 
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
+    std::chrono::duration<double> elapsed = end - start;
 
-    return InsertResult{numComparisons, elapsed.count()};
+    return InsertResult{numComparisons, elapsed.count()}; // Retorna o número de comparações e o tempo
 }
 
 SearchResult search(BinaryTree* tree, const std::string& word){

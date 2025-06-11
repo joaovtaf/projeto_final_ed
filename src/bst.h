@@ -13,6 +13,9 @@ namespace BST{
 // Retorna uma BinaryTree.
 BinaryTree* create();
 
+// Auxiliar da insert
+Node* insertBST(Node* node, const std::string& word, int documentId, int& numComparisons);
+
 // Insere uma palavra na árvore associada a um documentId. Se for nova cria um novo nó, e já existir adiciona o documentId.
 // Retorna um InsertResult que trás estatísticas sobre o desempenho (número de comparações e tempo de execução).
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
