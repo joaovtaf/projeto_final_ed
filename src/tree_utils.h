@@ -39,36 +39,37 @@ struct SearchResult {
 /**
  * @brief Imprime as palavras armazenadas em tree, em ordem lexicográfica, seguidas dos
  * índices dos arquivos aos quais elas pertencem.
- * @param *tree Ponteiro para a árvore
+ * @param tree Ponteiro para a árvore.
  */
 void printIndex(BinaryTree* tree);
 
 
 /**
  * @brief Função interna para formatar a impressão das palavras armazenadas em tree em formato de árvore.
- * @param *node Ponteiro para o nó raiz
- * @param &prefix Endereço do prefixo atual
+ * @param node Ponteiro para o nó raiz.
+ * @param prefix Prefixo atual. Passar por referência.
  * @param isLeft True se o nó raiz está na esquerda de seu nó pai. False caso contrário.
  */
 void printTreeAux(Node* node, const std::string& prefix, bool isLeft);
 
 /**
  * @brief Imprime as palavras armazenadas em tree em formato de árvore.
- * @param *tree Ponteiro para a árvore
+ * @param tree Ponteiro para a árvore.
  */
 void printTree(BinaryTree* tree);
 
 /**
- * @brief retorna o valor máximo entre dois int.
- * @param a, b inteiros
- * @return int, maior entre a e b
+ * @brief Calcula o valor máximo entre dois inteiros.
+ * @param a Primeiro inteiro a ser comparado.
+ * @param b Segundo inteiro a ser comparado.
+ * @return Maior valor entre a e b.
  */
 int max(int a, int b);
 
 /**
- * @brief retorna o valor máximo entre dois int.
- * @param Node* ponteiro para o nó a ser descoberto a altura
- * @return int, altura do nó
+ * @brief Calcula a altura de um nó.
+ * @param node Ponteiro para o nó a ser descoberto a altura.
+ * @return Altura do nó.
  */
 int height(Node* node);
 
