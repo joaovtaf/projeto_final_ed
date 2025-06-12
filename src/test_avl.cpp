@@ -59,13 +59,9 @@ void test_insert() {
     // Inserção que causa rotação Left-Right (LR)
     AVL::insert(tree, "banana", 10);
     AVL::insert(tree, "abacate", 20);
-    InsertResult res = AVL::insert(tree, "acerola", 30); // Deve causar rotação LR
+    AVL::insert(tree, "acerola", 30); // Deve causar rotação LR
 
-    // Após rotação LR:
-    //       acerola
-    //      /       \
-    // abacate     banana
-
+    // Após rotação LR
     assert(tree->root != nullptr && tree->root->word == "acerola");
     assert(tree->root->left != nullptr && tree->root->left->word == "abacate");
     assert(tree->root->right != nullptr && tree->root->right->word == "banana");

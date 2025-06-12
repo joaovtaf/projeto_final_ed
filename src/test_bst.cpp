@@ -73,34 +73,34 @@ void test_insert() {
     BinaryTree* tree = BST::create();
 
     // Inserir na árvore vazia
-    InsertResult res1 = BST::insert(tree, "banana", 10);
+    BST::insert(tree, "banana", 10);
     assert(tree->root != nullptr && tree->root->word == "banana");
     assert(containsId(tree->root->documentIds, 10));
     assert(tree->root->left == nullptr && tree->root->right == nullptr);
     std::cout << "Teste Inserir na Arvore Vazia: PASSOU" << std::endl;
 
     // Inserir elemento menor
-    InsertResult res2 = BST::insert(tree, "abacate", 20);
+    BST::insert(tree, "abacate", 20);
     assert(tree->root->left != nullptr && tree->root->left->word == "abacate");
     assert(containsId(tree->root->left->documentIds, 20));
     assert(tree->root->right == nullptr);
     std::cout << "Teste Inserir Elemento Menor: PASSOU" << std::endl;
 
     // Inserir elemento maior
-    InsertResult res3 = BST::insert(tree, "caqui", 30);
+    BST::insert(tree, "caqui", 30);
     assert(tree->root->right != nullptr && tree->root->right->word == "caqui");
     assert(containsId(tree->root->right->documentIds, 30));
     std::cout << "Teste Inserir Elemento Maior: PASSOU" << std::endl;
 
     // Inserir elemento intermediário (requer navegação)
-    InsertResult res4 = BST::insert(tree, "acerola", 40);
+    BST::insert(tree, "acerola", 40);
     Node* abacateNode = findNode(tree->root, "abacate");
     assert(abacateNode != nullptr && abacateNode->right != nullptr && abacateNode->right->word == "acerola");
     assert(containsId(abacateNode->right->documentIds, 40));
     std::cout << "Teste Inserir Elemento: PASSOU" << std::endl; 
 
     // Inserir palavra duplicada (ID diferente)
-    InsertResult res5 = BST::insert(tree, "banana", 11);
+    BST::insert(tree, "banana", 11);
     assert(tree->root != nullptr && tree->root->word == "banana");
     assert(containsId(tree->root->documentIds, 10)); 
     assert(containsId(tree->root->documentIds, 11));
@@ -108,7 +108,7 @@ void test_insert() {
     std::cout << "Teste Inserir Palavra Duplicada (ID diferente): PASSOU" << std::endl;
 
     // Inserir palavra duplicada (ID igual)
-    InsertResult res6 = BST::insert(tree, "abacate", 20);
+    BST::insert(tree, "abacate", 20);
     abacateNode = findNode(tree->root, "abacate"); 
     assert(abacateNode != nullptr);
     assert(containsId(abacateNode->documentIds, 20));
@@ -116,14 +116,14 @@ void test_insert() {
     std::cout << "Teste Inserir Palavra Duplicada (ID igual): PASSOU" << std::endl;
 
     // Inserir elemento que vai à direita de um nó direito
-    InsertResult res7 = BST::insert(tree, "damasco", 50);
+    BST::insert(tree, "damasco", 50);
     Node* caquiNode = findNode(tree->root, "caqui");
     assert(caquiNode != nullptr && caquiNode->right != nullptr && caquiNode->right->word == "damasco");
     assert(containsId(caquiNode->right->documentIds, 50));
     std::cout << "Teste Inserir Elemento Grande: PASSOU" << std::endl;
 
     // Inserir elemento que vai à esquerda de um nó esquerdo
-    InsertResult res8 = BST::insert(tree, "a", 60); 
+    BST::insert(tree, "a", 60); 
     abacateNode = findNode(tree->root, "abacate"); 
     assert(abacateNode != nullptr && abacateNode->left != nullptr && abacateNode->left->word == "a");
     assert(containsId(abacateNode->left->documentIds, 60));

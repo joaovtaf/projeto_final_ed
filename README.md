@@ -24,3 +24,13 @@ Para analisar estatísticas, execute
 ```bash
 ./avl stats <quantidade_de_documentos> data
 ```
+
+## Testes
+Para executar os testes da bst, execute
+```bash
+./test_bst
+```
+Para executar os testes da avl, execute
+```bash
+./test_avl
+```
