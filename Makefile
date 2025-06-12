@@ -31,8 +31,8 @@ endif
 # Object files
 BST_OBJS := data.o tree_utils.o bst.o main_bst.o
 AVL_OBJS := data.o tree_utils.o avl.o main_avl.o
-TEST_BST_OBJS := data.o tree_utils.o bst.o test_bst.o
-TEST_AVL_OBJS := data.o tree_utils.o avl.o test_avl.o
+TEST_BST_OBJS := tree_utils.o bst.o test_bst.o
+TEST_AVL_OBJS := tree_utils.o avl.o test_avl.o
 
 # Default rule
 all: $(BST_EXECUTABLE) $(AVL_EXECUTABLE) $(TEST_BST_EXECUTABLE) $(TEST_AVL_EXECUTABLE)
