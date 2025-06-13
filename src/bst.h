@@ -8,10 +8,10 @@
 #define BST_H
 
 namespace BST{
+    
 /**
- * @brief Calcula o fator de balanceamento de um node.
- * @param node Ponteiro para o node.
- * @return Altura do nó da esquerda menos a altura do nó da direita.
+ * @brief Inicializa uma árvore binária.
+ * @return A árvore inicializada.
  */
 BinaryTree* create();
 
