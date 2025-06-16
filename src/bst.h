@@ -16,16 +16,6 @@ namespace BST{
 BinaryTree* create();
 
 /**
- * @brief Função auxiliar da insert.
- * @param node Ponteiro para o node atual.
- * @param word Palavra a ser inserida. Passar por referência.
- * @param documentId Índice do documento que contém a palavra.
- * @param numComparisons Número de comparações, variável a ser atualizada. Passar por referência.
- * @return Ponteiro para o nó percorrido.
- */
-Node* insertBST(Node* node, const std::string& word, int documentId, int& numComparisons);
-
-/**
  * @brief Insere uma palavra na árvore associada a um documentId. Se for inédita cria um novo nó,
  * se já existir adiciona o documentId ao nó associado.
  * @param tree Ponteiro para a BST.
