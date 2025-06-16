@@ -68,7 +68,5 @@ int max(int a, int b) {
 }
 
 int height(Node* node) {
-    if (node == nullptr)
-        return 0;
-    return node->height;
+    return node ? node->height : -1; // retorna -1 se nulo, e a altura correta se não nulo
 }

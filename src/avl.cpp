@@ -14,15 +14,12 @@ BinaryTree* create() {
 }
 
 int getBalance(Node* node) {
-    if (node == nullptr)
-        return 0;
+    if (node == nullptr) return 0;
     return height(node->left) - height(node->right);
 }
 
 Node* rightRotate(Node* y) {
-    if (!y || !y->left) {
-        return y;
-    }
+    if (!y || !y->left) return y;
     
     Node* x = y->left;
     Node* T2 = x->right;
@@ -33,13 +30,11 @@ Node* rightRotate(Node* y) {
     y->height = 1 + max(height(y->left), height(y->right));
     x->height = 1 + max(height(x->left), height(x->right));
 
-    return x; // novo nó raiz da subárvore
+    return x; // faz a rotação para a direita
 }
 
 Node* leftRotate(Node* x) {
-    if (!x || !x->right) {
-        return x;
-    }
+    if (!x || !x->right) return x;
 
     Node* y = x->right;
     Node* T2 = y->left;
@@ -47,25 +42,23 @@ Node* leftRotate(Node* x) {
     y->left = x;
     x->right = T2;
 
-    y->height = 1 + max(height(y->left), height(y->right));
     x->height = 1 + max(height(x->left), height(x->right));
+    y->height = 1 + max(height(y->left), height(y->right));
 
-    return y; // novo nó raiz da subárvore
+    return y; // faz a rotação para a esquerda
 }
 
 Node* insertAVL(Node* node, const std::string& word, int documentId, int& numComparisons) {
-    if (node == nullptr) {
-        return (new Node{word, {documentId}, nullptr, nullptr, nullptr, 1, 0});
-    }
+    if (node == nullptr) return (new Node{word, {documentId}, nullptr, nullptr, nullptr, 0, 0});
 
     numComparisons++;
     int comparison = word.compare(node->word);
 
     if (comparison < 0)
         node->left = insertAVL(node->left, word, documentId, numComparisons);
-    else if (comparison > 0)
+    if (comparison > 0)
         node->right = insertAVL(node->right, word, documentId, numComparisons);
-    else {
+    if (comparison == 0) {
         bool found = false;
         for (int id : node->documentIds) {
             if (id == documentId) {
