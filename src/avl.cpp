@@ -33,7 +33,7 @@ Node* rightRotate(Node* y) {
     y->height = 1 + max(height(y->left), height(y->right));
     x->height = 1 + max(height(x->left), height(x->right));
 
-    return x; // faz a rotação para a direita
+    return x; // novo nó raiz da subárvore
 }
 
 Node* leftRotate(Node* x) {
@@ -50,7 +50,7 @@ Node* leftRotate(Node* x) {
     y->height = 1 + max(height(y->left), height(y->right));
     x->height = 1 + max(height(x->left), height(x->right));
 
-    return y; // faz a rotação para a esquerda
+    return y; // novo nó raiz da subárvore
 }
 
 Node* insertAVL(Node* node, const std::string& word, int documentId, int& numComparisons) {

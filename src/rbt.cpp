@@ -18,6 +18,54 @@ BinaryTree* create() {
     return ptr; // Cria o ponteiro da árvore e do nó NIL
 }
 
+Node* rightRotate(Node* y, Node* NIL) {
+    if (y == NIL || y->left == NIL) {
+        return y;
+    }
+    
+    Node* x = y->left;
+    Node* T2 = x->right;
+
+    x->parent = y->parent;
+    y->parent = x; 
+
+    if (T2 != NIL) {
+        T2->parent = y; // Atualiza o pai de T2 se existir
+    }
+
+    x->right = y;
+    y->left = T2;
+
+    y->height = 1 + max(height(y->left), height(y->right));
+    x->height = 1 + max(height(x->left), height(x->right));
+
+    return x; // novo nó raiz da subárvore
+}
+
+Node* leftRotate(Node* x, Node* NIL) {
+    if (x == NIL || x->right == NIL) {
+        return x;
+    }
+
+    Node* y = x->right;
+    Node* T2 = y->left;
+
+    y->parent = x->parent; 
+    x->parent = y; 
+
+    if (T2 != NIL) {
+        T2->parent = x;     // Atualiza o pai de T2 se existir
+    }
+
+    y->left = x;
+    x->right = T2;
+
+    y->height = 1 + max(height(y->left), height(y->right));
+    x->height = 1 + max(height(x->left), height(x->right));
+
+    return y; // novo nó raiz da subárvore
+}
+
 SearchResult search(BinaryTree* tree, const std::string& word){
     auto start = std::chrono::high_resolution_clock::now(); // incia a contagem
     int numComparisons = 0;
