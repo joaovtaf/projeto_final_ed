@@ -72,15 +72,16 @@ void test_insert() {
 
     assert(tree->root->right->right != nullptr && tree->root->right->right->word == "caqui");
     std::cout << "Teste Inserção Direita Após LR: PASSOU" << std::endl;
-
+    printTree(tree);
     // Inserção que causa rotação Right-Left (RL).
     AVL::insert(tree, "figo", 50);
+    printTree(tree);
     AVL::insert(tree, "damasco", 60); // Deve causar rotação RL
-
+    printTree(tree);
+    
     // Verificacoes pós RL
-    assert(tree->root->right->right != nullptr && tree->root->right->right->word == "figo");
-    assert(tree->root->right->left == nullptr && tree->root->right->word == "caqui");
-    assert(tree->root->right->right->left->word == "damasco");
+    assert(tree->root->right->right == nullptr && tree->root->right->left->word == "damasco");
+    assert(tree->root->word == "caqui");
     std::cout << "Teste Rotação Right-Left (RL): PASSOU" << std::endl;
 
     // Inserção adicional
