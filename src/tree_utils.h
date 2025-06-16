@@ -14,12 +14,12 @@ struct Node {
     Node* left;
     Node* right;
     int height;    // usado na AVL
-    int isRed;     // usado na RBT
+    int isRed;     // usado na RBT // zero para preto, 1 para vermelho
 };
 
 struct BinaryTree {
     Node* root;
-    Node* NIL;  // usado na RBT (Opcional) // zero para preto, 1 para vermelho
+    Node* NIL;  // usado na RBT (Opcional) 
 };
 
 struct InsertResult {
