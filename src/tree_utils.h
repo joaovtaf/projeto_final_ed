@@ -19,7 +19,7 @@ struct Node {
 
 struct BinaryTree {
     Node* root;
-    Node* NIL;  // usado na RBT (Opcional)
+    Node* NIL;  // usado na RBT (Opcional) // zero para preto, 1 para vermelho
 };
 
 struct InsertResult {

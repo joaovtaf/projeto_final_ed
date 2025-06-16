@@ -9,8 +9,13 @@
 namespace RBT {
 
 BinaryTree* create() {
-    BinaryTree* ptr = new BinaryTree{nullptr, nullptr};
-    return ptr; // cria e retorna
+    BinaryTree* ptr = new BinaryTree();
+    ptr->NIL = new Node{"", {}, nullptr, nullptr, nullptr, 0};
+    ptr->NIL->left = ptr->NIL;
+    ptr->NIL->right = ptr->NIL;
+    ptr->NIL->parent = ptr->NIL;
+    ptr->root = ptr->NIL;
+    return ptr; // Cria o ponteiro da árvore e do nó NIL
 }
 
 SearchResult search(BinaryTree* tree, const std::string& word){
@@ -23,6 +28,7 @@ SearchResult search(BinaryTree* tree, const std::string& word){
 
         return SearchResult{0, {}, elapsed.count(), numComparisons};
     } // se a arvore for null retorna direto
+
     if(tree->root == nullptr) {
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
@@ -32,7 +38,8 @@ SearchResult search(BinaryTree* tree, const std::string& word){
 
     Node* current_node = tree->root; // nó atual
 
-    while (current_node != nullptr) {
+    while (current_node != tree->NIL) {
+
         int comparison = word.compare(current_node->word);
         numComparisons++;
 
@@ -45,8 +52,7 @@ SearchResult search(BinaryTree* tree, const std::string& word){
         }
         if ( comparison < 0 ) {
             current_node = current_node->left; // se a palavra for menor, sigo pela esquerda
-        }
-        if ( comparison > 0 ) {
+        } else if ( comparison > 0 ) {
             current_node = current_node->right; // se a palavra for maior, sigo pela direita
         }
     }
@@ -57,22 +63,20 @@ SearchResult search(BinaryTree* tree, const std::string& word){
     return SearchResult{0, {}, elapsed.count(), numComparisons};
 }
 
-void destroyNode(Node* node) {
-    if (node != nullptr) {
-        destroyNode(node->left);
-        destroyNode(node->right);
+void destroyNode(Node* node, Node* nil_node) {
+    if (node != nil_node) {
+        destroyNode(node->left, nil_node);
+        destroyNode(node->right, nil_node);
         delete node;
-    }
-    return; // recursivamente deleta todos os nós
+    } // Deleta os nós evitando o NIL node
+    return;
 }
 
 void destroy(BinaryTree* tree) {
-
-    if (tree == nullptr) return; // se a arvore for null retorna direto
-
-    destroyNode(tree->root); // recursivamente deleta os nós
-    
-    delete tree; 
-    return; // deleta a tree e root, e retorna
+    if (tree == nullptr) return;
+    destroyNode(tree->root, tree->NIL);
+    delete tree->NIL;
+    delete tree;
+    return; // deleta a árvore completa
 }
 } // namespace RBT
