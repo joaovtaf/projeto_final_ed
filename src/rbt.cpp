@@ -10,7 +10,7 @@ namespace RBT {
 
 BinaryTree* create() {
     BinaryTree* ptr = new BinaryTree();
-    ptr->NIL = new Node{"", {}, nullptr, nullptr, nullptr, 0};
+    ptr->NIL = new Node{"", {}, nullptr, nullptr, nullptr, 0,0}; // incializa NIL com isRed 0 (black)
     ptr->NIL->left = ptr->NIL;
     ptr->NIL->right = ptr->NIL;
     ptr->NIL->parent = ptr->NIL;
@@ -27,6 +27,13 @@ Node* rightRotate(Node* y, Node* NIL) {
     Node* T2 = x->right;
 
     x->parent = y->parent;
+    if (y->parent != NIL) {
+        if (y == y->parent->right) {
+            y->parent->right = x;
+        } else {
+            y->parent->left = x;
+        }
+    }
     y->parent = x; 
 
     if (T2 != NIL) {
@@ -51,6 +58,14 @@ Node* leftRotate(Node* x, Node* NIL) {
     Node* T2 = y->left;
 
     y->parent = x->parent; 
+    if (x->parent != NIL) {
+        if (x == x->parent->left) {
+            x->parent->left = y;
+        } else {
+            x->parent->right = y;
+        }
+    }
+
     x->parent = y; 
 
     if (T2 != NIL) {
@@ -81,12 +96,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->right) {
                     // Left-right case
                     z = z->parent;
-                    leftRotate(z, NIL);
+                    z = leftRotate(z, NIL);
                 }
                 // Left-left case
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                rightRotate(z->parent->parent, NIL);
+                z = rightRotate(z->parent->parent, NIL);
             }
         } else {
             // Mirror cases
@@ -102,12 +117,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->left) {
                     // Right-left case
                     z = z->parent;
-                    rightRotate(z, NIL);
+                    z = rightRotate(z, NIL);
                 }
                 // Right-right case
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                leftRotate(z->parent->parent, NIL);
+                z = leftRotate(z->parent->parent, NIL);
             }
         }
     }
@@ -122,16 +137,16 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
         std::chrono::duration<double> elapsed = end - start;
         return InsertResult{numComparisons, elapsed.count()};
     } // se o ponteiro tree for nulo retorna direto
-    if(tree->root == nullptr) {
+    
+    if(tree->root == tree->NIL) {
         tree->root = new Node{word, {documentId}, tree->NIL, nullptr, nullptr, 0, 0};
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
-
         return InsertResult{numComparisons, elapsed.count()};
     } // se a árvore ainda estiver vazia é criado o root
     
     Node* current_node = tree->root; // nó atual
-    Node* current_node_parent = nullptr; // guarda o pai do nó atual
+    Node* current_node_parent = tree->NIL; // guarda o pai do nó atual
     int L_or_R = 0; // -1 de left e +1 se right 
 
     while (current_node != tree->NIL) {
