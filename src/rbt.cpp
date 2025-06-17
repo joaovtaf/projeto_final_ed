@@ -96,12 +96,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->right) {
                     // Left-right case
                     z = z->parent;
-                    z = leftRotate(z, NIL);
+                    leftRotate(z, NIL);
                 }
-                // Left-left case
+                // Left-left case   
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                z = rightRotate(z->parent->parent, NIL);
+                rightRotate(z->parent->parent, NIL);
             }
         } else {
             // Mirror cases
@@ -117,12 +117,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->left) {
                     // Right-left case
                     z = z->parent;
-                    z = rightRotate(z, NIL);
+                    rightRotate(z, NIL);
                 }
                 // Right-right case
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                z = leftRotate(z->parent->parent, NIL);
+                leftRotate(z->parent->parent, NIL);
             }
         }
     }
@@ -187,7 +187,10 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     if (L_or_R == +1) current_node_parent->right = current_node; // guarda o nó atual do lado correto do nó pai
     fixInsert(current_node, tree->NIL);
     tree->root->isRed = 0;
-
+    while(current_node_parent != nullptr) {
+        current_node_parent->height = 1 + max(height(current_node_parent->left), height(current_node_parent->right));
+        current_node_parent = current_node_parent->parent;
+    } // atualiza as alturas para as estatisticas
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
     return InsertResult{numComparisons, elapsed.count()};
