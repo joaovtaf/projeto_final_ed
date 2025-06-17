@@ -96,12 +96,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->right) {
                     // Left-right case
                     z = z->parent;
-                    z = leftRotate(z, NIL);
+                    leftRotate(z, NIL);
                 }
-                // Left-left case
+                // Left-left case   
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                z = rightRotate(z->parent->parent, NIL);
+                rightRotate(z->parent->parent, NIL);
             }
         } else {
             // Mirror cases
@@ -117,12 +117,12 @@ void fixInsert(Node *z, Node *NIL) {
                 if (z == z->parent->left) {
                     // Right-left case
                     z = z->parent;
-                    z = rightRotate(z, NIL);
+                    rightRotate(z, NIL);
                 }
                 // Right-right case
                 z->parent->isRed = 0;
                 z->parent->parent->isRed = 1;
-                z = leftRotate(z->parent->parent, NIL);
+                leftRotate(z->parent->parent, NIL);
             }
         }
     }
