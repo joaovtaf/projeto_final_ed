@@ -139,7 +139,7 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     } // se o ponteiro tree for nulo retorna direto
     
     if(tree->root == tree->NIL) {
-        tree->root = new Node{word, {documentId}, tree->NIL, nullptr, nullptr, 0, 0};
+        tree->root = new Node{word, {documentId}, tree->NIL, tree->NIL, tree->NIL, 0, 0};
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
         return InsertResult{numComparisons, elapsed.count()};

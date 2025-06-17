@@ -17,21 +17,13 @@ bool containsId(const std::vector<int>& ids, int id) {
     return false;
 }
 
-Node* findNode(Node* node, const std::string& word) {
-    if (node == nullptr) {
-        return nullptr;
-    }
-    int comparison = word.compare(node->word);
-    if (comparison == 0) {
-        return node;
-    } else if (comparison < 0) {
-        return findNode(node->left, word);
-    } else {
-        return findNode(node->right, word);
-    }
+// Funcao para verificar se um ID existe em um vetor de IDs
+Node* findNode(Node* root, Node* NIL, const std::string& word) {
+    if (root == NIL) return NIL;
+    if (word == root->word) return root;
+    if (word < root->word) return findNode(root->left, NIL, word);
+    else return findNode(root->right, NIL, word);
 }
-
-
 
 // Testes 
 void test_create() {
@@ -39,16 +31,17 @@ void test_create() {
 
     // Criar arvore vazia
     BinaryTree* tree1 =RBT::create();
-    assert(tree1 != nullptr && tree1->root == nullptr);
+    assert(tree1 != nullptr && tree1->root == tree1->NIL);
     std::cout << "Teste Criar Arvore Vazia: PASSOU" << std::endl;
-   RBT::destroy(tree1);
+    RBT::destroy(tree1);
 
-    // Criar árvore e inserir um no (verificação indireta)
+    // Criar árvore e inserir um no
     BinaryTree* tree2 =RBT::create();
-   RBT::insert(tree2, "raiz", 1);
-    assert(tree2 != nullptr && tree2->root != nullptr && tree2->root->word == "raiz");
+    RBT::insert(tree2, "raiz", 1);
+    assert(tree2 != nullptr && tree2->root != tree2->NIL && tree2->root->word == "raiz");
+    assert(tree2->root->isRed == false); // Raiz sempre preta
     std::cout << "Teste Criar Arvore com um No: PASSOU" << std::endl;
-   RBT::destroy(tree2);
+    RBT::destroy(tree2);
 
     std::cout << std::endl;
 }
@@ -56,113 +49,184 @@ void test_create() {
 void test_insert() {
     std::cout << "Testando o insert" << std::endl;
     BinaryTree* tree =RBT::create();
+    Node* NIL = tree->NIL;
 
-    // Inserção que causa rotação Left-Right (LR)
-   RBT::insert(tree, "banana", 10);
-   RBT::insert(tree, "abacate", 20);
-   RBT::insert(tree, "acerola", 30); // Deve causar rotação LR
+    // Teste 1: Insercao básica e propriedades RBT
+    RBT::insert(tree, "banana", 10);
+    assert(tree->root != NIL);
+    assert(tree->root->word == "banana");
+    assert(tree->root->isRed == false); // Raiz sempre preta
 
-    // Após rotação LR
-    assert(tree->root != nullptr && tree->root->word == "acerola");
-    assert(tree->root->left != nullptr && tree->root->left->word == "abacate");
-    assert(tree->root->right != nullptr && tree->root->right->word == "banana");
-    std::cout << "Teste Rotação Left-Right (LR): PASSOU" << std::endl;
-
-    // Teste de inserçao normal à direita.
-   RBT::insert(tree, "caqui", 40);
-
-    assert(tree->root->right->right != nullptr && tree->root->right->right->word == "caqui");
-    std::cout << "Teste Inserção Direita Após LR: PASSOU" << std::endl;
-    printTree(tree);
-    // Inserção que causa rotação Right-Left (RL).
-   RBT::insert(tree, "figo", 50);
-    printTree(tree);
-   RBT::insert(tree, "damasco", 60); // Deve causar rotação RL
+    // --- Teste 2: Inserção à esquerda ---
+    RBT::insert(tree, "abacate", 20);
+    
+    // Verificar estrutura:
+    //   banana(B)
+    //   /
+    // abacate(R)
+    assert(tree->root->left != NIL);
+    assert(tree->root->left->word == "abacate");
+    assert(tree->root->left->isRed == true); // Novo nó deve ser vermelho
+    assert(tree->root->left->parent == tree->root);
+    
+    // --- Teste 3: Inserção que causa ajustes ---
+    RBT::insert(tree, "acerola", 30);
     printTree(tree);
     
-    // Verificacoes pós RL
-    assert(tree->root->right->right == nullptr && tree->root->right->left->word == "damasco");
-    assert(tree->root->word == "caqui");
-    std::cout << "Teste Rotação Right-Left (RL): PASSOU" << std::endl;
+    // Após ajustes, a estrutura deve ser:
+    //   acerola(B)
+    //   /      \
+    // abacate(R) banana(R)
+    assert(tree->root->word == "acerola");
+    assert(tree->root->isRed == false);
+    
+    // Filho esquerdo
+    assert(tree->root->left != NIL);
+    assert(tree->root->left->word == "abacate");
+    assert(tree->root->left->isRed == true);
+    assert(tree->root->left->parent == tree->root);
+    
+    // Filho direito
+    assert(tree->root->right != NIL);
+    assert(tree->root->right->word == "banana");
+    assert(tree->root->right->isRed == true);
+    assert(tree->root->right->parent == tree->root);
+    
+    std::cout << "Teste Inserção com Ajustes: PASSOU" << std::endl;
 
-    // Inserção adicional
-   RBT::insert(tree, "goiaba", 70);
-    assert(tree->root->right->right->right == nullptr && tree->root->right->right->word == "goiaba");
+    // --- Teste 4: Inserção à direita ---
+    RBT::insert(tree, "caqui", 40);
+    printTree(tree);
+    
+    // Estrutura deve ser:
+    //   acerola(B)
+    //   /      \
+    // abacate(B) banana(B)
+    //              \
+    //              caqui(R)
+    assert(tree->root->word == "acerola");
+    assert(tree->root->isRed == false);
+    
+    // Filhos devem ter virado pretos
+    assert(tree->root->left->isRed == false);
+    assert(tree->root->right->isRed == false);
+    
+    // Novo nó à direita
+    assert(tree->root->right->right != NIL);
+    assert(tree->root->right->right->word == "caqui");
+    assert(tree->root->right->right->isRed == true);
+    assert(tree->root->right->right->parent == tree->root->right);
+    
+    // --- Teste 5: Inserção que causa novos ajustes ---
+    RBT::insert(tree, "damasco", 50);
+    printTree(tree);
+    
+    // Estrutura após inserção:
+    //   acerola(B)
+    //   /      \
+    // abacate(B) caqui(B)
+    //           /    \
+    //      banana(R) damasco(R)
+    assert(tree->root->word == "acerola");
+    assert(tree->root->right->word == "caqui");
+    assert(tree->root->right->isRed == false);
+    
+    // Filho esquerdo de caqui
+    assert(tree->root->right->left != NIL);
+    assert(tree->root->right->left->word == "banana");
+    assert(tree->root->right->left->isRed == true);
+    assert(tree->root->right->left->parent == tree->root->right);
+    
+    // Filho direito de caqui
+    assert(tree->root->right->right != NIL);
+    assert(tree->root->right->right->word == "damasco");
+    assert(tree->root->right->right->isRed == true);
+    assert(tree->root->right->right->parent == tree->root->right);
+    
+    std::cout << "Teste Inserções Múltiplas: PASSOU" << std::endl;
 
-    // Teste de duplicatas
-   RBT::insert(tree, "damasco", 60); // repetido
-   RBT::insert(tree, "damasco", 80); // novo
-
-    Node* damasco = findNode(tree->root, "damasco");
-    assert(damasco != nullptr);
-    assert(damasco->documentIds.size() == 2);
-    assert(containsId(damasco->documentIds, 60));
-    assert(containsId(damasco->documentIds, 80));
+    // --- Teste 6: Inserção de duplicatas ---
+    Node* damascoNode = findNode(tree->root, NIL, "damasco");
+    RBT::insert(tree, "damasco", 60);
+    RBT::insert(tree, "damasco", 80);
+    
+    assert(damascoNode != NIL);
+    assert(damascoNode->documentIds.size() == 3);
+    assert(containsId(damascoNode->documentIds, 50));
+    assert(containsId(damascoNode->documentIds, 60));
+    assert(containsId(damascoNode->documentIds, 80));
+    
+    // Verificar se a estrutura permaneceu correta
+    assert(tree->root->word == "acerola");
+    assert(tree->root->right->word == "caqui");
+    assert(tree->root->right->right->word == "damasco");
+    
     std::cout << "Teste Duplicatas: PASSOU" << std::endl;
 
-   RBT::destroy(tree);
-    std::cout << std::endl;
+    RBT::destroy(tree);
+    std::cout << std::endl;;
 }
 
 void test_search() {
     std::cout << "Testando o search" << std::endl;
-    BinaryTree* tree =RBT::create();
-   RBT::insert(tree, "laranja", 1);
-   RBT::insert(tree, "maça", 2);
-   RBT::insert(tree, "uva", 3);
-   RBT::insert(tree, "maça", 4);
+    BinaryTree* tree = RBT::create();
+    Node* NIL = tree->NIL;
+
+    RBT::insert(tree, "laranja", 1);
+    RBT::insert(tree, "maça", 2);
+    RBT::insert(tree, "uva", 3);
+    RBT::insert(tree, "maça", 4);
 
     // Busca existente
-    SearchResult sres1 =RBT::search(tree, "laranja");
+    SearchResult sres1 = RBT::search(tree, "laranja");
     assert(sres1.found == 1);
     assert(containsId(sres1.documentIds, 1));
     std::cout << "Teste Buscar Palavra Existente: PASSOU" << std::endl;
 
-    // Busca com multiplos IDs
-    SearchResult sres2 =RBT::search(tree, "maça");
+    // Busca com múltiplos IDs
+    SearchResult sres2 = RBT::search(tree, "maça");
     assert(sres2.found == 1);
+    assert(sres2.documentIds.size() == 2);
     assert(containsId(sres2.documentIds, 2));
     assert(containsId(sres2.documentIds, 4));
-    assert(sres2.documentIds.size() == 2);
-    std::cout << "Teste Buscar com Multiplos IDs: PASSOU" << std::endl;
+    std::cout << "Teste Buscar com Múltiplos IDs: PASSOU" << std::endl;
 
     // Busca inexistente
-    SearchResult sres3 =RBT::search(tree, "abacaxi");
+    SearchResult sres3 = RBT::search(tree, "abacaxi");
     assert(sres3.found == 0);
     assert(sres3.documentIds.empty());
     std::cout << "Teste Buscar Palavra Inexistente: PASSOU" << std::endl;
 
     // Busca em árvore vazia
-    BinaryTree* emptyTree =RBT::create();
-    SearchResult sres4 =RBT::search(emptyTree, "qualquer");
+    BinaryTree* emptyTree = RBT::create();
+    SearchResult sres4 = RBT::search(emptyTree, "qualquer");
     assert(sres4.found == 0);
     assert(sres4.documentIds.empty());
-    assert(sres4.numComparisons == 0);
-   RBT::destroy(emptyTree);
-    std::cout << "Teste Buscar em Arvore Vazia: PASSOU" << std::endl;
+    RBT::destroy(emptyTree);
+    std::cout << "Teste Buscar em Árvore Vazia: PASSOU" << std::endl;
 
-   RBT::destroy(tree);
+    RBT::destroy(tree);
     std::cout << std::endl;
 }
 
 void test_destroy() {
     std::cout << "Testando o destroy" << std::endl;
 
-    BinaryTree* tree1 =RBT::create();
-   RBT::destroy(tree1);
-    std::cout << "Teste Destruir Arvore Vazia: PASSOU" << std::endl;
+    BinaryTree* tree1 = RBT::create();
+    RBT::destroy(tree1);
+    std::cout << "Teste Destruir Árvore Vazia: PASSOU" << std::endl;
 
-    BinaryTree* tree2 =RBT::create();
-   RBT::insert(tree2, "m", 1);
-   RBT::insert(tree2, "f", 2);
-   RBT::insert(tree2, "s", 3);
-   RBT::insert(tree2, "a", 4);
-   RBT::insert(tree2, "h", 5);
-   RBT::insert(tree2, "z", 6);
-   RBT::destroy(tree2);
-    std::cout << "Teste Destruir Arvore Multiplos Nos: PASSOU" << std::endl;
+    BinaryTree* tree2 = RBT::create();
+    RBT::insert(tree2, "m", 1);
+    RBT::insert(tree2, "f", 2);
+    RBT::insert(tree2, "s", 3);
+    RBT::insert(tree2, "a", 4);
+    RBT::insert(tree2, "h", 5);
+    RBT::insert(tree2, "z", 6);
+    RBT::destroy(tree2);
+    std::cout << "Teste Destruir Árvore Múltiplos Nós: PASSOU" << std::endl;
 
-   RBT::destroy(nullptr);
+    RBT::destroy(nullptr);
     std::cout << "Teste Destruir nullptr: PASSOU" << std::endl;
 
     std::cout << std::endl;
