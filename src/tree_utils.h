@@ -14,7 +14,7 @@ struct Node {
     Node* left;
     Node* right;
     int height;    // usado na AVL
-    int isRed;     // usado na RBT // zero para preto, 1 para vermelho
+    int isRed;     // usado na RBT // 0 para preto, 1 para vermelho
 };
 
 struct BinaryTree {
