@@ -78,8 +78,7 @@ void test_insert() {
     // Teste 2: Insercao à esquerda
     RBT::insert(tree, "abacate", 20); 
     // Verificar estrutura:
-    //   banana(B)
-    //   /
+    //     banana(B)
     // abacate(R)
     assert(tree->root->left != NIL);
     assert(tree->root->left->word == "abacate");
@@ -91,8 +90,7 @@ void test_insert() {
     // Teste 3: Inserção que causa ajustes
     RBT::insert(tree, "acerola", 30);
     // Após ajustes, a estrutura deve ser:
-    //   acerola(B)
-    //   /      \
+    //      acerola(B)      
     // abacate(R) banana(R)
     assert(tree->root->word == "acerola");
     assert(tree->root->isRed == false);
@@ -115,11 +113,9 @@ void test_insert() {
     RBT::insert(tree, "caqui", 40);
     
     // Estrutura deve ser:
-    //   acerola(B)
-    //   /      \
+    //        acerola(B)
     // abacate(B) banana(B)
-    //              \
-    //              caqui(R)
+    //                caqui(R)
     assert(tree->root->word == "acerola");
     assert(tree->root->isRed == false);
     
@@ -137,11 +133,9 @@ void test_insert() {
     RBT::insert(tree, "damasco", 50);
     
     // Estrutura após inserção:
-    //   acerola(B)
-    //   /      \
-    // abacate(B) caqui(B)
-    //           /    \
-    //      banana(R) damasco(R)
+    //          acerola(B)
+    // abacate(B)      caqui(B)
+    //              banana(R) damasco(R)
     assert(tree->root->word == "acerola");
     assert(tree->root->right->word == "caqui");
     assert(tree->root->right->isRed == false);

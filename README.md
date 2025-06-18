@@ -24,6 +24,16 @@ Para analisar estatísticas, execute
 ```bash
 ./avl stats <quantidade_de_documentos> data
 ```
+## Árvore RBT
+Para realizar buscas, execute
+```bash
+./rbt search <quantidade_de_documentos> data
+```
+Para analisar estatísticas, execute
+```bash
+./rbt stats <quantidade_de_documentos> data
+```
+
 
 ## Testes
 Para executar os testes da bst, execute
@@ -33,4 +43,8 @@ Para executar os testes da bst, execute
 Para executar os testes da avl, execute
 ```bash
 ./test_avl
+```
+Para executar os testes da rbt, execute
+```bash
+./test_rbt
 ```
