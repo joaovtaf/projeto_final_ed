@@ -1,12 +1,12 @@
-#include "bst.h"
+#include "rbt.h"
 #include "tree_utils.h"
 #include "data.h"
 #include <iostream>
 #include <string>
 
-//wrapper para a função insert da BST
+//wrapper para a função insert da RBT
 InsertResult insertWrapper(void* tree, const std::string& word, int documentId) {
-    return BST::insert(static_cast<BinaryTree*>(tree), word, documentId);
+    return RBT::insert(static_cast<BinaryTree*>(tree), word, documentId);
 }
 
 void executeSearch(BinaryTree* tree) {
@@ -30,7 +30,7 @@ void executeSearch(BinaryTree* tree) {
             continue;
         }
         
-        SearchResult result = BST::search(tree, processedWord);
+        SearchResult result = RBT::search(tree, processedWord);
         
         if (result.found) {
             std::cout << "Palavra '" << processedWord << "' encontrada!" << std::endl;
@@ -62,7 +62,7 @@ void executeStats(BinaryTree* tree, ProcessResult processResult) {
 int main(int argc, char* argv[]) {
     //verificar argumentos
     if (argc != 4) {
-        std::cout << "Uso: ./bst <comando> <n_docs> <diretorio>" << std::endl;
+        std::cout << "Uso: ./rbt <comando> <n_docs> <diretorio>" << std::endl;
         std::cout << std::endl;
         return 1;
     }
@@ -70,11 +70,11 @@ int main(int argc, char* argv[]) {
     std::string command = argv[1];
     int numDocs = std::stoi(argv[2]);
     std::string directory = argv[3];
-    
+
     //validar comando
     if (command != "search" && command != "stats") {
-        std::cout << "Erro: Comando inválido '" << command << "'" << std::endl;
-        std::cout << "Uso: ./bst <comando> <n_docs> <diretorio>" << std::endl;
+        std::cout << "Erro: Comando inválido '" << command << "\'" << std::endl;
+        std::cout << "Uso: ./rbt <comando> <n_docs> <diretorio>" << std::endl;
         std::cout << std::endl;
         return 1;
     }
@@ -89,8 +89,8 @@ int main(int argc, char* argv[]) {
     std::cout << "Número de Documentos: " << numDocs << std::endl;
     std::cout << "Diretório: " << directory << std::endl;
     
-    //criar árvore BST
-    BinaryTree* tree = BST::create();
+    //criar árvore RBT
+    BinaryTree* tree = RBT::create();
     
     //processar arquivos e construir índice
     std::function<InsertResult(void*, const std::string&, int)> insertCallback = insertWrapper;
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
     }
     
     //limpar memória
-    BST::destroy(tree);
+    RBT::destroy(tree);
     
     return 0;
 }

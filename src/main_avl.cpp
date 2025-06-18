@@ -42,8 +42,12 @@ void executeSearch(BinaryTree* tree) {
                 }
             }
             std::cout << std::endl;
+            std::cout << "Tempo de busca: " << result.executionTime << " segundos" << std::endl;
+            std::cout << "Comparações realizadas: " << result.numComparisons << std::endl;
         } else {
-            std::cout << "Palavra \'" << processedWord << "\' não encontrada." << std::endl;
+            std::cout << "Palavra '" << processedWord << "' não encontrada." << std::endl;
+            std::cout << "Tempo de busca: " << result.executionTime << " segundos" << std::endl;
+            std::cout << "Comparações realizadas: " << result.numComparisons << std::endl;
         }
     }
 }

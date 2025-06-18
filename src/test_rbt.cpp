@@ -185,7 +185,6 @@ void test_insert() {
 void test_search() {
     std::cout << "Testando o search" << std::endl;
     BinaryTree* tree = RBT::create();
-    Node* NIL = tree->NIL;
 
     RBT::insert(tree, "laranja", 1);
     RBT::insert(tree, "maça", 2);
