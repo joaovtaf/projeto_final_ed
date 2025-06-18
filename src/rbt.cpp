@@ -107,15 +107,18 @@ void fixInsert(Node *N, Node *NIL) {
             // Simétrico
             Node *U = G->left;
             if (U != NIL && U->isRed == 1) {
+                // Caso 1: tio vermelho 
                 N->parent->isRed = 0;
                 U->isRed = 0;
                 G->isRed = 1;
                 N = G;
             } else {
+                // Caso 2: tio preto triangulo
                 if (N == N->parent->left) {
                     N = N->parent;
                     rightRotate(N, NIL);
                 }
+                // Case 3: tio preto linha
                 N->parent->isRed = 0;
                 G->isRed = 1;
                 leftRotate(G, NIL);
