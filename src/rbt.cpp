@@ -181,12 +181,23 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     current_node = new Node{word, {documentId}, current_node_parent, tree->NIL, tree->NIL, 0, 1};  // inserido como vermelho a principio
     if (L_or_R == -1) current_node_parent->left = current_node;
     if (L_or_R == +1) current_node_parent->right = current_node; // guarda o nó atual do lado correto do nó pai
+
     fixInsert(current_node, tree->NIL);
-    tree->root->isRed = 0;
-    while(current_node_parent != nullptr) {
-        current_node_parent->height = 1 + max(height(current_node_parent->left), height(current_node_parent->right));
-        current_node_parent = current_node_parent->parent;
-    } // atualiza as alturas para as estatisticas
+    
+    Node* temp = current_node;
+    while (temp->parent != tree->NIL) {
+        temp = temp->parent;
+    }
+    tree->root = temp;
+    tree->root->isRed = 0; // Raiz sempre preta
+
+    // Atualiza alturas do no inserido ate a raiz
+    Node* height_node = current_node;
+    while (height_node != tree->NIL) {
+        height_node->height = 1 + std::max(height(height_node->left), height(height_node->right));
+        height_node = height_node->parent;
+    }
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
     return InsertResult{numComparisons, elapsed.count()};

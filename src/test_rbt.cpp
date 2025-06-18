@@ -90,7 +90,6 @@ void test_insert() {
 
     // Teste 3: Inserção que causa ajustes
     RBT::insert(tree, "acerola", 30);
-    printTreeRBT(tree);
     // Após ajustes, a estrutura deve ser:
     //   acerola(B)
     //   /      \
@@ -137,7 +136,6 @@ void test_insert() {
     
     // Teste 5: Inserção que causa novos ajustes
     RBT::insert(tree, "damasco", 50);
-    printTreeRBT(tree);
     
     // Estrutura após inserção:
     //   acerola(B)
