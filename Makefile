@@ -21,23 +21,23 @@ TEST_RBT_TARGET := test_rbt
 ifeq ($(OS),Windows_NT)
     BST_EXECUTABLE := $(BST_TARGET).exe
     AVL_EXECUTABLE := $(AVL_TARGET).exe
-	RBT_EXECUTABLE := $(RBT_TARGET).exe
+    RBT_EXECUTABLE := $(RBT_TARGET).exe
     TEST_BST_EXECUTABLE := $(TEST_BST_TARGET).exe
     TEST_AVL_EXECUTABLE := $(TEST_AVL_TARGET).exe
-	TEST_RBT_EXECUTABLE := $(TEST_RBT_TARGET).exe
+    TEST_RBT_EXECUTABLE := $(TEST_RBT_TARGET).exe
 else
     BST_EXECUTABLE := $(BST_TARGET)
     AVL_EXECUTABLE := $(AVL_TARGET)
-	RBT_EXECUTABLE := $(RBT_TARGET)
+    RBT_EXECUTABLE := $(RBT_TARGET)
     TEST_BST_EXECUTABLE := $(TEST_BST_TARGET)
     TEST_AVL_EXECUTABLE := $(TEST_AVL_TARGET)
-	TEST_RBT_EXECUTABLE := $(TEST_RBT_TARGET)
+    TEST_RBT_EXECUTABLE := $(TEST_RBT_TARGET)
 endif
 
 # Object files
 BST_OBJS := data.o tree_utils.o bst.o main_bst.o
 AVL_OBJS := data.o tree_utils.o avl.o main_avl.o
-RBT_OBJS := data.o tree_utils.o rbt.o # add main_rbt.o 
+RBT_OBJS := data.o tree_utils.o rbt.o main_rbt.o
 TEST_BST_OBJS := tree_utils.o bst.o test_bst.o
 TEST_AVL_OBJS := tree_utils.o avl.o test_avl.o
 TEST_RBT_OBJS := tree_utils.o rbt.o test_rbt.o
@@ -86,7 +86,8 @@ main_bst.o: $(SRCDIR)/main_bst.cpp
 main_avl.o: $(SRCDIR)/main_avl.cpp
 	$(CXX) $(CXXFLAGS) $(SRCDIR)/main_avl.cpp -o main_avl.o
 
-# add main_rbt
+main_rbt.o: $(SRCDIR)/main_rbt.cpp
+	$(CXX) $(CXXFLAGS) $(SRCDIR)/main_rbt.cpp -o main_rbt.o
 
 test_bst.o: $(SRCDIR)/test_bst.cpp
 	$(CXX) $(CXXFLAGS) $(SRCDIR)/test_bst.cpp -o test_bst.o
