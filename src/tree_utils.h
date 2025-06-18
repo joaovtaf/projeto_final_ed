@@ -73,4 +73,15 @@ int max(int a, int b);
  */
 int height(Node* node);
 
+/**
+ * @brief Calcula a altura de um nó.
+ * @param node Ponteiro para o nó a ser calculado a altura
+ */
+void computeHeight(Node* n);
+
+/**
+ * @brief faz o switch entre nós 
+ * @param u, v ponteiros para os nós a serem trocados
+ */
+void transplant(Node* u, Node* v);
 #endif

@@ -75,7 +75,7 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId){
     if (L_or_R == -1) current_node_parent->left = current_node;
     if (L_or_R == +1) current_node_parent->right = current_node; // guarda o nó atual do lado correto do nó pai
     while(current_node_parent != nullptr) {
-        current_node_parent->height = 1 + max(height(current_node_parent->left), height(current_node_parent->right));
+        computeHeight(current_node_parent);
         current_node_parent = current_node_parent->parent;
     } // atualiza as alturas para as estatisticas
     auto end = std::chrono::high_resolution_clock::now();

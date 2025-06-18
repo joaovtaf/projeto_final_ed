@@ -70,3 +70,7 @@ int max(int a, int b) {
 int height(Node* node) {
     return node ? node->height : -1; // retorna -1 se nulo, e a altura correta se não nulo
 }
+
+void computeHeight(Node* n) {
+    n->height = 1 + max(height(n->left), height(n->right));
+}
