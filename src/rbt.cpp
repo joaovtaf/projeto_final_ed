@@ -178,7 +178,7 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
         }
     }
 
-    current_node = new Node{word, {documentId}, current_node_parent, nullptr, nullptr, 0, 1};  // inserido como vermelho a principio
+    current_node = new Node{word, {documentId}, current_node_parent, tree->NIL, tree->NIL, 0, 1};  // inserido como vermelho a principio
     if (L_or_R == -1) current_node_parent->left = current_node;
     if (L_or_R == +1) current_node_parent->right = current_node; // guarda o nó atual do lado correto do nó pai
     fixInsert(current_node, tree->NIL);
@@ -203,7 +203,7 @@ SearchResult search(BinaryTree* tree, const std::string& word){
         return SearchResult{0, {}, elapsed.count(), numComparisons};
     } // se a arvore for null retorna direto
 
-    if(tree->root == nullptr) {
+    if(tree->root == tree->NIL) {
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start; // salva o tempo de execução
 
