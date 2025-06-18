@@ -17,7 +17,7 @@ bool containsId(const std::vector<int>& ids, int id) {
     return false;
 }
 
-// Funcao para verificar se um ID existe em um vetor de IDs
+// Função para encontrar um nó na árvore
 Node* findNode(Node* root, Node* NIL, const std::string& word) {
     if (root == NIL) return NIL;
     if (word == root->word) return root;
@@ -113,7 +113,6 @@ void test_insert() {
 
     // Teste 4: Inserção à direita 
     RBT::insert(tree, "caqui", 40);
-    printTreeRBT(tree);
     
     // Estrutura deve ser:
     //   acerola(B)

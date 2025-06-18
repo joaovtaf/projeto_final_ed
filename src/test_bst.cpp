@@ -18,6 +18,7 @@ bool containsId(const std::vector<int>& ids, int id) {
     return false;
 }
 
+// Funcao para verificar a estrutura da arvore criada
 bool checkTreeStructure(Node* node, const std::string& word, Node* expected_left, Node* expected_right) {
     if (!node) return false; 
     if (node->word != word) return false;

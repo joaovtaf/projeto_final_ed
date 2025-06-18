@@ -18,6 +18,7 @@ bool containsId(const std::vector<int>& ids, int id) {
     return false;
 }
 
+// Função para encontrar um nó na árvore
 Node* findNode(Node* node, const std::string& word) {
     if (node == nullptr) {
         return nullptr;

@@ -79,9 +79,4 @@ int height(Node* node);
  */
 void computeHeight(Node* n);
 
-/**
- * @brief faz o switch entre nós 
- * @param u, v ponteiros para os nós a serem trocados
- */
-void transplant(Node* u, Node* v);
 #endif
