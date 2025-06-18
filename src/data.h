@@ -10,8 +10,8 @@
 /**
  * @struct ProcessResult
  * @brief Armazena resultados do processamento de arquivos
- * @var totalWords - Total de palavras processadas (incluindo repeticoes)
- * @var executionTime - Tempo total de processamento em segundos
+ * @param totalWords Total de palavras processadas (incluindo repeticoes)
+ * @param executionTime Tempo total de processamento em segundos
  */
 struct ProcessResult {
     int totalWords;
@@ -21,7 +21,7 @@ struct ProcessResult {
 /**
  * @brief Processa uma palavra removendo caracteres nao alfanumericos e convertendo para minúsculas
  * @param word Palavra a ser processada
- * @return std::string Palavra processada
+ * @return string: palavra processada
  */
 std::string processWord(const std::string& word);
 
@@ -31,7 +31,7 @@ std::string processWord(const std::string& word);
  * @param numFiles Numero de arquivos a processar
  * @param insertCallback Funçao de callback para inserção de palavras
  * @param tree Arvore a ser construida apos o processamento
- * @return ProcessResult Resultados do processamento
+ * @return ProcessResult com resultados do processamento
  */
 ProcessResult processFiles(
     const std::string& directory, 
