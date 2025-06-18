@@ -43,8 +43,8 @@ Node* rightRotate(Node* y, Node* NIL) {
     x->right = y;
     y->left = T2;
 
-    y->height = 1 + max(height(y->left), height(y->right));
-    x->height = 1 + max(height(x->left), height(x->right));
+    computeHeight(y);
+    computeHeight(x);
 
     return x; // novo nó raiz da subárvore
 }
@@ -75,8 +75,8 @@ Node* leftRotate(Node* x, Node* NIL) {
     y->left = x;
     x->right = T2;
 
-    y->height = 1 + max(height(y->left), height(y->right));
-    x->height = 1 + max(height(x->left), height(x->right));
+    computeHeight(x);
+    computeHeight(y);
 
     return y; // novo nó raiz da subárvore
 }
@@ -197,7 +197,7 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     // Atualiza alturas do no inserido ate a raiz
     Node* height_node = current_node;
     while (height_node != tree->NIL) {
-        height_node->height = 1 + std::max(height(height_node->left), height(height_node->right));
+        computeHeight(height_node);
         height_node = height_node->parent;
     }
 

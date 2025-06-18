@@ -27,8 +27,8 @@ Node* rightRotate(Node* y) {
     x->right = y;
     y->left = T2;
 
-    y->height = 1 + max(height(y->left), height(y->right));
-    x->height = 1 + max(height(x->left), height(x->right));
+    computeHeight(y);
+    computeHeight(x);
 
     return x; // faz a rotação para a direita
 }
@@ -42,8 +42,8 @@ Node* leftRotate(Node* x) {
     y->left = x;
     x->right = T2;
 
-    x->height = 1 + max(height(x->left), height(x->right));
-    y->height = 1 + max(height(y->left), height(y->right));
+    computeHeight(x);
+    computeHeight(y);
 
     return y; // faz a rotação para a esquerda
 }
