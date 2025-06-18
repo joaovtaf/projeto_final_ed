@@ -81,48 +81,44 @@ Node* leftRotate(Node* x, Node* NIL) {
     return y; // novo nó raiz da subárvore
 }
 
-void fixInsert(Node *z, Node *NIL) {
-    while (z->parent->isRed == 1) {
-        if (z->parent == z->parent->parent->left) {
-            Node *y = z->parent->parent->right;
-            if (y->isRed == 1) {
-                // Caso 1: Tio vermelho
-                z->parent->isRed = 0;
-                y->isRed = 0;
-                z->parent->parent->isRed = 1;
-                z = z->parent->parent;
+void fixInsert(Node *N, Node *NIL) {
+    while (N->parent->isRed == 1) {
+        Node *G = N->parent->parent;
+        if (N->parent == G->left) {
+            Node *U = G->right;
+            if (U != NIL && U->isRed == 1) {
+                // Caso 1: tio vermelho 
+                N->parent->isRed = 0;
+                U->isRed = 0;
+                G->isRed = 1;
+                N = G;
             } else {
-                // Caso 2: Tio preto
-                if (z == z->parent->right) {
-                    // Left-right case
-                    z = z->parent;
-                    leftRotate(z, NIL);
+                // Caso 2: tio preto triangulo
+                if (N == N->parent->right) {
+                    N = N->parent;
+                    leftRotate(N, NIL);
                 }
-                // Left-left case   
-                z->parent->isRed = 0;
-                z->parent->parent->isRed = 1;
-                rightRotate(z->parent->parent, NIL);
+                // Case 3: tio preto linha
+                N->parent->isRed = 0;
+                G->isRed = 1;
+                rightRotate(G, NIL);
             }
         } else {
-            // Mirror cases
-            Node *y = z->parent->parent->left;
-            if (y->isRed == 1) {
-                // Case 1
-                z->parent->isRed = 0;
-                y->isRed = 0;
-                z->parent->parent->isRed = 1;
-                z = z->parent->parent;
+            // Simétrico
+            Node *U = G->left;
+            if (U != NIL && U->isRed == 1) {
+                N->parent->isRed = 0;
+                U->isRed = 0;
+                G->isRed = 1;
+                N = G;
             } else {
-                // Case 2
-                if (z == z->parent->left) {
-                    // Right-left case
-                    z = z->parent;
-                    rightRotate(z, NIL);
+                if (N == N->parent->left) {
+                    N = N->parent;
+                    rightRotate(N, NIL);
                 }
-                // Right-right case
-                z->parent->isRed = 0;
-                z->parent->parent->isRed = 1;
-                leftRotate(z->parent->parent, NIL);
+                N->parent->isRed = 0;
+                G->isRed = 1;
+                leftRotate(G, NIL);
             }
         }
     }
