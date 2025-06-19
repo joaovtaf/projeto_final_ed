@@ -250,7 +250,7 @@ int main(int argc, char* argv[]) {
     std::string directory = argv[3];
 
     //validar comando
-    if (command != "search" && command != "stats" $$ command != "benchmark") {
+    if (command != "search" && command != "stats" && command != "benchmark") {
         std::cout << "Erro: Comando inválido '" << command << "'" << std::endl;
         std::cout << "Uso: ./rbt <comando> <n_docs> <diretorio>" << std::endl;
         std::cout << std::endl;
