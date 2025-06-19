@@ -176,7 +176,7 @@ void executeBenchmark(const std::string& directory) {
     std::cout << "Executando benchmark para 1 a 10000 documentos..." << std::endl;
     
     //eriar arquivo CSV
-    std::ofstream csvFile("benchmark_results.csv");
+    std::ofstream csvFile("benchmark_results_bst.csv");
     if (!csvFile.is_open()) {
         std::cout << "Erro: Não foi possível criar o arquivo CSV." << std::endl;
         return;
