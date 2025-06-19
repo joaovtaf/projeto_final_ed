@@ -191,19 +191,8 @@ void executeBenchmark(const std::string& directory) {
     
     // Definir intervalos para teste
     std::vector<int> testValues;
-    
-    //1 a 100: de 1 em 1
-    for (int i = 1; i <= 100; i++) {
-        testValues.push_back(i);
-    }
-    
-    //100 a 1000: de 10 em 10
-    for (int i = 110; i <= 1000; i += 10) {
-        testValues.push_back(i);
-    }
-    
-    //1000 a 10000: de 100 em 100
-    for (int i = 1100; i <= 10000; i += 100) {
+
+    for (int i = 1; i <= 10000; i += 500) {
         testValues.push_back(i);
     }
     
