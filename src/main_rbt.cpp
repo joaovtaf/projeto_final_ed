@@ -176,7 +176,7 @@ void executeBenchmark(const std::string& directory) {
     std::cout << "Executando benchmark para 1 a 10000 documentos..." << std::endl;
     
     //criar arquivo CSV
-    std::ofstream csvFile("benchmark_results_rbt.csv");
+    std::ofstream csvFile("docs/benchmark_results_rbt.csv");
     if (!csvFile.is_open()) {
         std::cout << "Erro: Não foi possível criar o arquivo CSV." << std::endl;
         return;
@@ -233,7 +233,7 @@ void executeBenchmark(const std::string& directory) {
     csvFile.close();
     
     std::cout << "\nBenchmark completo!" << std::endl;
-    std::cout << "Resultados salvos em: benchmark_results.csv" << std::endl;
+    std::cout << "Resultados salvos em: docs/benchmark_results_rbt.csv" << std::endl;
     std::cout << "Total de testes realizados: " << results.size() << std::endl;
 }
 
