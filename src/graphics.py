@@ -23,18 +23,18 @@ smallest_branch = {}
 
 for tree in trees:
     data[tree] = pd.read_csv(f"docs/benchmark_results_{tree}.csv")
-    n_docs[tree] = data[tree][:, 0]
-    n_words[tree] = data[tree][:, 1]
-    total_insertion_time[tree] = data[tree][:, 2]
-    avg_insertion_time[tree] = data[tree][:, 3]
-    total_search_time[tree] = data[tree][:, 5]
-    avg_search_time[tree] = data[tree][:, 6]
-    max_search_time[tree] = data[tree][:, 7]
-    min_search_time[tree] = data[tree][:, 8]
-    total_comparisons[tree] = data[tree][:, 9]
-    avg_comparisons[tree] = data[tree][:, 10]
-    biggest_branch[tree] = data[tree][:, 11]
-    smallest_branch[tree] = data[tree][:, 12]
+    n_docs[tree] = data[tree].values[:, 0]
+    n_words[tree] = data[tree].values[:, 1]
+    total_insertion_time[tree] = data[tree].values[:, 2]
+    avg_insertion_time[tree] = data[tree].values[:, 3]
+    total_search_time[tree] = data[tree].values[:, 5]
+    avg_search_time[tree] = data[tree].values[:, 6]
+    max_search_time[tree] = data[tree].values[:, 7]
+    min_search_time[tree] = data[tree].values[:, 8]
+    total_comparisons[tree] = data[tree].values[:, 9]
+    avg_comparisons[tree] = data[tree].values[:, 10]
+    biggest_branch[tree] = data[tree].values[:, 11]
+    smallest_branch[tree] = data[tree].values[:, 12]
 
 # número de comparações
 for tree in trees:
